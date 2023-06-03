@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('./partials/head.ejs', { title }) %>
+    </head>
+    <body>
+        <div class="d-flex">
+            <%- include('./partials/sidebar.ejs') %>
+            <main class="d-flex flex-column align-items-center" style="width: 100%">
+                <h1 class="fw-bold my-3"><%= title %></h1>
+                <div class="table-container" style="width: 80%">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
+                        <i class="fs-5 bi bi-plus"></i>
+                    </button>
+
+                    <!-- Table of data -->
+                    <table class="table table-bordered" style="vertical-align: middle">
+                        <thead>
+                            <tr class="text-center">
+                                <th>No</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Detail</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Hai</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-center">
+                                    <i class="bi bi-three-dots"></i>
+                                </td>
+                                <td class="text-center">
+                                    <a href="" style="text-decoration: none">
+                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                            <i class="fs-5 bi bi-pencil-fill"></i>
+                                        </button>
+                                    </a>
+                                    <a href="" style="text-decoration: none">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                                            <i class="fs-5 bi bi-trash-fill"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add new <%= title.toLowerCase().slice(0, title.length - 1) %></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post"></form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('./partials/js.ejs') %>
+    </body>
+</html>
