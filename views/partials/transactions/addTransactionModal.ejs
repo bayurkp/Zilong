@@ -1,11 +1,7 @@
 <!-- Form Modal -->
-<form <% if (transaction.length == 0) { %> action="/admin/transactions"
-    method="POST" <% } else { %>
-    action="/admin/transactions/<%= transaction._id %>?_method=PUT"
-    method="POST" <% } %>>
-  <div class="modal fade" <% if (transaction.length == 0) { %> id="addModal"
-      <% } else { %> id="editModal-<%= transaction._id %>" <% } %>
-      data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+<form method="POST" action="/admin/transactions/">
+  <div class="modal fade" id="addModal" data-bs-backdrop="static"
+      data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -21,9 +17,7 @@
             <select name="memberId" class="form-select" id="floatingMemberId"
                 required>
               <% members.forEach(member => { %>
-              <option value="<%= member._id %>"
-                  <% if (transactions.length != 0 && transaction.memberId == member._id) { %>
-                  selected <% } %>>
+              <option value="<%= member._id %>">
                 <%= member.firstName + " " + member.lastName %></option>
               <% }) %>
             </select>
@@ -35,16 +29,14 @@
             <select name="cashierId" class="form-select" id="floatingCashierId"
                 required>
               <% cashiers.forEach(cashier => { %>
-              <option value="<%= cashier._id %>"
-                  <% if (transaction.cashierId == cashier._id) { %> selected
-                  <% } %>>
+              <option value="<%= cashier._id %>">
                 <%= cashier.firstName + " " + cashier.lastName %></option>
               <% }) %>
             </select>
             <label for="floatingCashierId">Cashier</label>
           </div>
 
-          <!-- Details -->
+          <!-- Add Details -->
           <div class="mb-3" id="inputDetails">
             Details
             <div id="detail-1">
@@ -95,7 +87,7 @@
               onclick="addTransactionDetail()">
             <i class="bi bi-plus"></i>
           </button>
-          <!-- End of Details -->
+          <!-- End of Add Details -->
 
         </div>
         <div class="modal-footer">
@@ -103,12 +95,8 @@
               data-bs-dismiss="modal">
             Back
           </button>
-          <button type="submit" name="submit" class="btn <% if (transaction.length != 0) { %>
-              btn-warning <% } else { %> btn-primary <% } %>">
-            <% if (transaction.length != 0) { %>
-            Edit
-            <% } else { %>
-            Add <% } %>
+          <button type="submit" name="submit" class="btn btn-outline-primary">
+            Add
           </button>
         </div>
       </div>

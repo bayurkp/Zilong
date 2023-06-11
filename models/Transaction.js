@@ -26,7 +26,7 @@ const transactionSchema = mongoose.Schema(
         },
         discount: {
           type: Number,
-          required: true,
+          required: false,
           default: 0,
         },
         quantity: {

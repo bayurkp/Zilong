@@ -1,0 +1,195 @@
+<!-- Form Modal -->
+<form method="POST"
+    action="/admin/transactions/<%= transaction._id %>?_method=PUT">
+  <div class="modal fade" id="editModal-<%= transaction._id %>"
+      data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            <%= title %>
+          </h1>
+          <button type="button" class="btn-close"
+              data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-start">
+          <!-- Select Member -->
+          <div class="form-floating mb-3">
+            <select name="memberId" class="form-select" id="floatingMemberId"
+                required>
+              <% members.forEach(member => { %>
+              <option value="<%= member._id %>"
+                  <% if (transaction.memberId == member._id.toString()) { %>
+                  selected <% } %>>
+                <%= member.firstName + " " + member.lastName %></option>
+              <% }) %>
+            </select>
+            <label for="floatingMemberId">Member</label>
+          </div>
+
+          <!-- Select Cashier -->
+          <div class="form-floating mb-3">
+            <select name="cashierId" class="form-select" id="floatingCashierId"
+                required>
+              <% cashiers.forEach(cashier => { %>
+              <option value="<%= cashier._id %>"
+                  <% if (transaction.cashierId == cashier._id.toString()) { %>
+                  selected <% } %>>
+                <%= cashier.firstName + " " + cashier.lastName %></option>
+              <% }) %>
+            </select>
+            <label for="floatingCashierId">Cashier</label>
+          </div>
+
+          <!-- Edit Details -->
+          <div class="mb-3" id="editDetails-<%= transaction._id %>">
+            Details
+            <% let indexDetail = 1 %>
+            <% transaction.details.forEach(detail => { %>
+            <div id="editDetail-<%= transaction._id %>-<%= indexDetail %>">
+              <hr>
+              <!-- Select book -->
+              <div class="form-floating mb-3">
+                <select name="bookId" class="form-select mb-3"
+                    id="floatingBookId" required>
+                  <% books.forEach(book => { %>
+                  <option value="<%= book._id %>"
+                      <% if (detail.bookId == book._id.toString()) { %> selected
+                      <% } %>>
+                    <%= book.title %> - Rp. <%= book.price %>,00</option>
+                  <% }) %>
+                </select>
+                <label for="floatingBookId">Book</label>
+              </div>
+
+              <div class="row">
+                <!-- Price -->
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingPrice"
+                        placeholder="Price (Rp)" name="price"
+                        value="<%= detail.price %>" required />
+                    <label for="floatingPrice">Price (Rp)</label>
+                  </div>
+                </div>
+
+                <!-- Discount -->
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control"
+                        id="floatingDiscount" placeholder="Disc (%)"
+                        name="discount" value="<%= detail.discount %>" />
+                    <label for="floatingDiscount">Disc (%)</label>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <!-- Quantity -->
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingQty"
+                        placeholder="Qty" name="quantity"
+                        value="<%= detail.quantity %>" />
+                    <label for="floatingQty">Qty</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delete transaction group detail (above) -->
+              <button type="button" class="btn btn-sm btn-outline-warning"
+                  onclick="removeTransactionDetail('#editDetail-<%= transaction._id %>-<%= indexDetail %>')">
+                <i class="bi bi-dash"></i>
+              </button>
+            </div>
+            <% indexDetail++ %>
+            <% }) %>
+          </div>
+
+          <script>
+            let lastIndex = parseInt($("#detailsLength").val()) + 1;
+
+            const addEditTransactionDetail = id => {
+              $(id).append(`
+            <div id="editDetail-<%= transaction._id %>-${lastIndex}">
+              <hr>
+              <!-- Select book -->
+              <div class="form-floating mb-3">
+                <select name="bookId" class="form-select mb-3"
+                    id="floatingBookId" required>
+                  <% books.forEach(book => { %>
+                  <option value="<%= book._id %>">
+                    <%= book.title %> - Rp. <%= book.price %>,00</option>
+                  <% }) %>
+                </select>
+                <label for="floatingBookId">Book</label>
+              </div>
+
+              <div class="row">
+                <!-- Price -->
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" name="price" id="floatingPrice"
+                        placeholder="Price (Rp)" required />
+                    <label for="floatingPrice">Price (Rp)</label>
+                  </div>
+                </div>
+
+                <!-- Discount -->
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control"
+                        id="floatingDiscount" placeholder="Discount"
+                        name="discount" />
+                    <label for="floatingDiscount">Disc (%)</label>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <!-- Quantity -->
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingQty"
+                        placeholder="Qty" name="quantity" required />
+                    <label for="floatingQty">Qty</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delete transaction group detail (above) -->
+              <button type="button" class="btn btn-sm btn-outline-warning"
+                  onclick="removeTransactionDetail('#editDetail-<%= transaction._id %>-${lastIndex}')">
+                <i class="bi bi-dash"></i>
+              </button>
+            </div>
+            `);
+
+              lastIndex++;
+            }
+          </script>
+
+          <!-- Add transaction detail -->
+          <button type="button" class="btn btn-sm btn-outline-primary mb-3"
+              onclick="addEditTransactionDetail('#editDetails-<%= transaction._id %>')">
+            <i class="bi bi-plus"></i>
+          </button>
+          <!-- End of Edit Details -->
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">
+            Back
+          </button>
+          <button type="submit" name="submit" class="btn btn-outline-primary">
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<input type="hidden" id="detailsLength"
+    value="<%= transaction.details.length %>">
+
+<script>
+  const removeTransactionDetail = id => $(id).remove();
+</script>

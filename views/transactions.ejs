@@ -30,7 +30,7 @@
         </button>
 
         <!-- Modal add transaction -->
-        <%- include('./partials/transactions/transactionModal.ejs', { transaction: [], title: "Add new transaction" }) %>
+        <%- include('./partials/transactions/addTransactionModal.ejs', { title: "Add new transaction" }) %>
 
         <!-- Table of data -->
         <table class="table table-bordered align-middle"
@@ -52,11 +52,16 @@
                 <%= i %>
               </td>
               <td style="word-wrap: break-word">
-                <%= transaction.memberName %></td>
+                <% members.forEach(member => { %>
+                <% if (transaction.memberId == member._id.toString()) { %>
+                <%= member.username %>
+                <% } %>
+                <% }) %>
+              </td>
               <td style="word-wrap: break-word">
                 <%= transaction.createdAt %></td>
               <td style="word-wrap: break-word">
-                <%= transaction.total %></td>
+                Rp. <%= transaction.total %>,00</td>
               <td class="text-center" style="word-wrap: break-word">
                 <!-- Button modal detail transaction -->
                 <button type="button" class="btn btn-outline-success btn-sm"
@@ -79,7 +84,7 @@
                   <i class="bi bi-pencil-fill"></i>
                 </button>
                 <!-- Modal edit transaction -->
-                <%- include('./partials/transactions/transactionModal.ejs', { transaction, title: "Edit " + transaction.firstName + " " + transaction.lastName }) %>
+                <%-  include('./partials/transactions/editTransactionModal.ejs', { transaction, title: "Edit " + transaction.lastName }) %>
 
                 <!-- Button delete transaction -->
                 <form
