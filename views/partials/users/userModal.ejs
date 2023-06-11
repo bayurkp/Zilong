@@ -1,0 +1,187 @@
+<!-- Form Modal -->
+<form <% if (user.length == 0) { %> method="POST" <% } else { %>
+    action="/admin/users/<%= user._id %>?_method=PUT" method="POST" <% } %>>
+  <div class="modal fade" <% if (user.length == 0) { %> id="addModal"
+      <% } else { %> id="editModal-<%= user._id %>" <% } %>
+      data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            <%= title %>
+          </h1>
+          <button type="button" class="btn-close"
+              data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-end">
+
+          <div class="row">
+            <!-- First Name -->
+            <div class="col">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingFirstName"
+                    placeholder="First Name" name="firstName"
+                    <% if (user.length != 0) { %> value="<%= user.firstName %>"
+                    <% } %> />
+                <label for="floatingFirstName">First Name</label>
+              </div>
+            </div>
+
+            <!-- Last Name -->
+            <div class="col">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingLastName"
+                    placeholder="Last Name" name="lastName" required
+                    <% if (user.length != 0) { %> value="<%= user.lastName %>"
+                    <% } %> />
+                <label for="floatingLastName">Last Name</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Username -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingUsername"
+                placeholder="Username" name="username" required
+                <% if (user.length != 0) { %> value="<%= user.username %>"
+                <% } %> />
+            <label for="floatingUsername">Username</label>
+          </div>
+
+          <!-- Password -->
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword"
+                placeholder="Password" name="password" required />
+            <label for="floatingPassword">Password</label>
+          </div>
+          <button class="btn btn-outline-secondary btn-sm mb-3" type="button"
+              id="visibilityPassword"><i class='bi bi-eye-fill'></i> Show
+            Password</button>
+
+          <!-- Confirm Password -->
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control"
+                id="floatingConfirmPassword" placeholder="Confirm Password"
+                name="confirmPassword" required />
+            <label for="floatingConfirmPassword">Confirm Password</label>
+          </div>
+          <button class="btn btn-outline-secondary btn-sm mb-3" type="button"
+              id="visibilityConfirmPassword"><i class='bi bi-eye-fill'></i> Show
+            Password</button>
+
+          <!-- Address -->
+          <div class="form-floating mb-3">
+            <textarea type="number" class="form-control" id="floatingAddress"
+                placeholder="Address" name="address"
+                required><% if (user.length != 0) { %><%= user.address %><% } %></textarea>
+            <label for="floatingAddress">Address</label>
+          </div>
+
+          <!-- Email -->
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingEmail"
+                placeholder="Email" name="email" required
+                <% if (user.length != 0) { %> value="<%= user.email %>"
+                <% } %> />
+            <label for="floatingEmail">Email</label>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-floating mb-3">
+            <input type="tel" class="form-control" id="floatingPhone"
+                placeholder="Phone" name="phone" required
+                <% if (user.length != 0) { %> value="<%= user.phone %>"
+                <% } %> />
+            <label for="floatingPhone">Phone</label>
+          </div>
+
+          <!-- Role -->
+          <div class="form-floating mb-3">
+            <select name="role" class="form-select" id="floatingRole" required>
+              <option value="admin"
+                  <% if (user.length != 0 && user.role == "admin") { %> selected
+                  <% } %>>Admin</option>
+              <option value="cashier"
+                  <% if (user.length != 0 && user.role == "cashier") { %>
+                  selected <% } %>>Cashier</option>
+              <option value="regular"
+                  <% if (user.length != 0 && user.role == "regular") { %>
+                  selected <% } %>>Regular</option>
+              <option value="member"
+                  <% if (user.length != 0 && user.role == "member") { %>
+                  selected <% } %>>Member</option>
+            </select>
+            <label for="floatingRole">Role</label>
+          </div>
+
+          <!-- Is Active -->
+          <div class="text-start" width="100%">
+            Active
+            <br>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="isActive"
+                  value="1" checked <% if (user.length == 0) { %>
+                  id="isActiveTrueAdd" <% } else { %> id="isActiveTrueEdit"
+                  <% } %>>
+              <label class="form-check-label" <% if (user.length == 0) { %>
+                  for="isActiveTrueAdd" <% } else { %> for="isActiveTrueEdit"
+                  <% } %>>
+                True
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="isActive"
+                  value="0" <% if (user.length == 0) { %> disabled
+                  id="isActiveFalseAdd" <% } else { %> id="isActiveFalseEdit"
+                  <% } %>>
+              <label class="form-check-label" <% if (user.length == 0) { %>
+                  for="isActiveFalseAdd" <% } else { %> for="isActiveFalseEdit"
+                  <% } %>>
+                False
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">
+            Back
+          </button>
+          <button type="submit" name="submit" class="btn <% if (user.length != 0) { %>
+              btn-warning <% } else { %> btn-primary <% } %>">
+            <% if (user.length != 0) { %>
+            Edit
+            <% } else { %>
+            Add <% } %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+  $("#visibilityPassword").on("click", () => {
+    if ($("#floatingPassword").attr("type") === "password") {
+      $("#visibilityPassword").html(
+        "<i class='bi bi-eye-slash-fill'></i> Hide Password");
+      $("#floatingPassword").attr("type", "text");
+    } else {
+      $("#floatingPassword").attr("type", "password");
+      $("#visibilityPassword").html(
+        "<i class='bi bi-eye-fill'></i> Show Password");
+    }
+  });
+
+  $("#visibilityConfirmPassword").on("click", () => {
+    if ($("#floatingConfirmPassword").attr("type") === "password") {
+      $("#visibilityConfirmPassword").html(
+        "<i class='bi bi-eye-slash-fill'></i> Hide Password");
+      $("#floatingConfirmPassword").attr("type", "text");
+    } else {
+      $("#floatingConfirmPassword").attr("type", "password");
+      $("#visibilityConfirmPassword").html(
+        "<i class='bi bi-eye-fill'></i> Show Password");
+    }
+  });
+</script>

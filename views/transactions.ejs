@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/head.ejs', { title }) %>
+</head>
+
+<body>
+  <div class="d-flex">
+    <%- include('./partials/sidebar.ejs') %>
+    <main class="d-flex flex-column align-items-center" style="width: 100%">
+      <h1 class="fw-bold my-3"><%= title %></h1>
+      <!-- Alert message -->
+
+      <% if (alert != undefined) { %>
+      <div>
+        <% if (alert.message != "") { %>
+        <div class="alert alert-<%= alert.status %>" role="alert">
+          <%= alert.message %>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+
+      <div class="table-container" style="width: 80%">
+        <!-- Button modal add transaction -->
+        <button type="button" class="btn btn-outline-primary mb-3"
+            data-bs-toggle="modal" data-bs-target="#addModal">
+          <i class="fs-5 bi bi-plus"></i>
+        </button>
+
+        <!-- Modal add transaction -->
+        <%- include('./partials/transactions/transactionModal.ejs', { transaction: [], title: "Add new transaction" }) %>
+
+        <!-- Table of data -->
+        <table class="table table-bordered align-middle"
+            style="table-layout: fixed;">
+          <thead>
+            <tr class="text-center">
+              <th>No</th>
+              <th>Member</th>
+              <th>Timestamp</th>
+              <th>Total</th>
+              <th>Details</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let i = 1; %> <% transactions.forEach(transaction => { %>
+            <tr>
+              <td style="word-wrap: break-word" class="text-center">
+                <%= i %>
+              </td>
+              <td style="word-wrap: break-word">
+                <%= transaction.memberName %></td>
+              <td style="word-wrap: break-word">
+                <%= transaction.createdAt %></td>
+              <td style="word-wrap: break-word">
+                <%= transaction.total %></td>
+              <td class="text-center" style="word-wrap: break-word">
+                <!-- Button modal detail transaction -->
+                <button type="button" class="btn btn-outline-success btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailTransaction-<%= transaction._id %>">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+
+                <!-- Modal detail transaction -->
+                <%- include('./partials/transactions/detailTransaction.ejs', { transaction, 
+                  title: "Detail Transactions" }) %>
+              </td>
+
+              <td class="text-center d-flex flex-row align-items-center justify-content-center"
+                  style="gap: 5px">
+                <!-- Button modal edit transaction  -->
+                <button type="button" class="btn btn-outline-warning btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal-<%= transaction._id %>">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <!-- Modal edit transaction -->
+                <%- include('./partials/transactions/transactionModal.ejs', { transaction, title: "Edit " + transaction.firstName + " " + transaction.lastName }) %>
+
+                <!-- Button delete transaction -->
+                <form
+                    action="/admin/transactions/<%= transaction._id %>?_method=DELETE"
+                    method="post">
+                  <button type="submit" class="btn btn-outline-danger btn-sm"
+                      onclick="return confirm('Delete <%= transaction.firstName + ` ` + transaction.lastName %>?');">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </form>
+              </td>
+
+            </tr>
+            <% i++; %>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <%- include('./partials/js.ejs') %>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/head.ejs', { title }) %>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    .container {
+      min-width: 100%;
+      min-height: 100vh;
+    }
+
+    .form-signin {
+      max-width: 330px;
+      padding: 1rem;
+    }
+
+    .form-signin .form-floating:focus-within {
+      z-index: 2;
+    }
+
+    .form-signin input[name="username"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .form-signin input[name="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div
+      class="container d-flex justify-content-center align-items-center bg-light">
+    <main class="form-signin w-100 m-auto text-end">
+      <form action="/auth" method="POST">
+        <h1 class="fs-3 fw-bold">Z I L O N G</h1>
+        <h4 class="mb-3 fw-normal">Please sign in</h4>
+
+        <!-- Username -->
+        <div class="form-floating">
+          <input type="text" class="form-control" name="username"
+              id="floatingUsername" placeholder="Username" required>
+          <label for="floatingUsername">Username</label>
+        </div>
+
+        <!-- Password -->
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="floatingPassword"
+              placeholder="Password" name="password" required />
+          <label for="floatingPassword">Password</label>
+        </div>
+        <button class="btn btn-outline-danger btn-sm mb-3" type="button"
+            id="visibilityPassword"><i class='bi bi-eye-fill'></i> Show
+          Password</button>
+
+        <div class="form-check text-start my-3">
+          <input class="form-check-input" type="checkbox" value="remember-me"
+              id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            Remember me
+          </label>
+        </div>
+        <button class="btn btn-primary w-100 py-2" type="submit">Sign
+          in</button>
+      </form>
+    </main>
+  </div>
+  <%- include('./partials/js.ejs') %>
+
+  <script>
+    $("#visibilityPassword").on("click", () => {
+      if ($("#floatingPassword").attr("type") === "password") {
+        $("#visibilityPassword").removeClass("btn-outline-danger")
+          .addClass(
+            "btn-outline-success");
+        $("#visibilityPassword").html(
+          "<i class='bi bi-eye-slash-fill'></i> Hide Password");
+        $("#floatingPassword").attr("type", "text");
+      } else {
+        $("#floatingPassword").attr("type", "password");
+        $("#visibilityPassword").removeClass("btn-outline-success")
+          .addClass(
+            "btn-outline-danger");
+        $("#visibilityPassword").html(
+          "<i class='bi bi-eye-fill'></i> Show Password");
+      }
+    });
+  </script>
+</body>
+
+</html>

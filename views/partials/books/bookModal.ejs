@@ -1,0 +1,246 @@
+<!-- Form Modal -->
+<form <% if (book.length == 0) { %> action="/admin/books" method="POST"
+    <% } else { %> action="/admin/books/<%= book._id %>?_method=PUT"
+    method="POST" <% } %>>
+  <div class="modal fade" <% if (book.length == 0) { %> id="addModal"
+      <% } else { %> id="editModal-<%= book._id %>" <% } %>
+      data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            <%= title %>
+          </h1>
+          <button type="button" class="btn-close"
+              data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Title -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingTitle"
+                placeholder="Title" name="title" required
+                <% if (book.length != 0) { %> value="<%= book.title %>"
+                <% } %> />
+            <label for="floatingTitle">Title</label>
+          </div>
+
+          <!-- Author -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingAuthor"
+                placeholder="Author" name="author" required
+                <% if (book.length != 0) { %> value="<%= book.author %>"
+                <% } %> />
+            <label for="floatingAuthor">Author</label>
+          </div>
+
+          <!-- Publisher -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingPublisher"
+                placeholder="Publisher" name="publisher" required
+                <% if (book.length != 0) { %> value="<%= book.publisher %>"
+                <% } %> />
+            <label for="floatingPublisher">Publisher</label>
+          </div>
+
+          <!-- Publication Year -->
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control"
+                id="floatingPublicationYear" placeholder="Publication Year"
+                min="1800" max="2023" step="1" name="publicationYear" required
+                <% if (book.length != 0) { %>
+                value="<%= book.publicationYear %>" <% } %> />
+            <label for="floatingPublicationYear">Publication Year</label>
+          </div>
+
+          <!-- Number of Pages -->
+          <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="floatingNumberOfPages"
+                placeholder="Number of Pages" min="1" step="1"
+                name="numberOfPages" required <% if (book.length != 0) { %>
+                value="<%= book.numberOfPages %>" <% } %> />
+            <label for="floatingNumberOfPages">Number of Pages</label>
+          </div>
+
+          <!-- Price -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingPrice"
+                placeholder="Price (Rp)" name="price" required
+                <% if (book.length != 0) { %> value="<%= book.price %>"
+                <% } %> />
+            <label for="floatingPrice">Price (Rp)</label>
+          </div>
+
+          <!-- Stock -->
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingStock"
+                placeholder="Stock" name="stock" required
+                <% if (book.length != 0) { %> value="<%= book.stock %>"
+                <% } %> />
+            <label for="floatingStock">Stock</label>
+          </div>
+
+          <!-- Genre -->
+          <table class="table text-start">
+            <tr>
+              <td colspan="2">Genre</td>
+            </tr>
+            <tr>
+              <td class="ms-3">
+                <div class="form-check">
+                  <!-- Horror -->
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Horror" <% if (book.length != 0) { %>
+                      id="editHorror"
+                      <% if ( book.genre.includes("Horror")) { %> checked
+                      <% } } else { %> id="addHorror" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editHorror" <% } else { %> for="addHorror" <% } %>>
+                    Horror
+                  </label>
+                </div>
+
+                <!-- Comedy -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Comedy" <% if (book.length != 0) { %>
+                      id="editComedy"
+                      <% if ( book.genre.includes("Comedy")) { %> checked
+                      <% } } else { %> id="addComedy" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editComedy" <% } else { %> for="addComedy" <% } %>>
+                    Comedy
+                  </label>
+                </div>
+
+                <!-- Fiction -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Fiction" <% if (book.length != 0) { %>
+                      id="editFiction"
+                      <% if ( book.genre.includes("Fiction")) { %> checked
+                      <% } } else { %> id="addFiction" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editFiction" <% } else { %> for="addFiction" <% } %>>
+                    Fiction
+                  </label>
+                </div>
+
+                <!-- Romance -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Romance" <% if (book.length != 0) { %>
+                      id="editRomance"
+                      <% if ( book.genre.includes("Romance")) { %> checked
+                      <% } } else { %> id="addRomance" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editRomance" <% } else { %> for="addRomance" <% } %>>
+                    Romance
+                  </label>
+                </div>
+
+                <!-- Fantasy -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Fantasy" <% if (book.length != 0) { %>
+                      id="editFantasy"
+                      <% if ( book.genre.includes("Fantasy")) { %> checked
+                      <% } } else { %> id="addFantasy" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editFantasy" <% } else { %> for="addFantasy" <% } %>>
+                    Fantasy
+                  </label>
+                </div>
+              </td>
+
+              <!-- Historical -->
+              <td class="ms-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Historical" <% if (book.length != 0) { %>
+                      id="editHistorical"
+                      <% if ( book.genre.includes("Historical")) { %> checked
+                      <% } } else { %> id="addHistorical" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editHistorical" <% } else { %> for="addHistorical"
+                      <% } %>>
+                    Historical
+                  </label>
+                </div>
+
+                <!-- Sci-Fi -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Science Fiction" <% if (book.length != 0) { %>
+                      id="editScienceFiction"
+                      <% if ( book.genre.includes("Science Fiction")) { %>
+                      checked <% } } else { %> id="addScienceFiction" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editScienceFiction" <% } else { %>
+                      for="addScienceFiction" <% } %>>
+                    Science Fiction
+                  </label>
+                </div>
+
+                <!-- Non Fiction -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Non Fiction" <% if (book.length != 0) { %>
+                      id="editNonFiction"
+                      <% if ( book.genre.includes("Non Fiction")) { %> checked
+                      <% } } else { %> id="addNonFiction" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editNonFiction" <% } else { %> for="addNonFiction"
+                      <% } %>>
+                    Non Fiction
+                  </label>
+                </div>
+
+                <!-- Children's -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Children's" <% if (book.length != 0) { %>
+                      id="editChildrens"
+                      <% if ( book.genre.includes("Children's")) { %> checked
+                      <% } } else { %> id="addChildrens" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editChildrens" <% } else { %> for="addChildrens"
+                      <% } %>>
+                    Children's
+                  </label>
+                </div>
+
+                <!-- Other -->
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="genre"
+                      value="Other" <% if (book.length != 0) { %> id="editOther"
+                      <% if ( book.genre.includes("Other")) { %> checked
+                      <% } } else { %> id="addOther" <% } %> />
+                  <label class="form-check-label" <% if (book.length != 0) { %>
+                      for="editOther" <% } else { %> for="addOther" <% } %>>
+                    Other
+                  </label>
+                </div>
+              </td>
+            </tr>
+          </table>
+          <!-- End of Genre -->
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">
+            Back
+          </button>
+          <button type="submit" name="submit" class="btn <% if (book.length != 0) { %>
+              btn-warning <% } else { %> btn-primary <% } %>">
+            <% if (book.length != 0) { %>
+            Edit
+            <% } else { %>
+            Add <% } %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

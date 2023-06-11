@@ -1,0 +1,58 @@
+<div class="modal fade" id="detailUser-<%= user._id %>" data-bs-keyboard="false"
+    tabindex="-1">
+  <div
+      class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5"><%= title %></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table text-start">
+          <tr>
+            <td class="fw-bold">Name</td>
+            <td><%= user.firstName + " " + user.lastName %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Username</td>
+            <td><%= user.username %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Address</td>
+            <td><%= user.address %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Email</td>
+            <td><%= user.email %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Phone</td>
+            <td><%= user.phone %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Role</td>
+            <td style="text-transform: capitalize;"><%= user.role %></td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Is Active?</td>
+            <% if (user.isActive) { %>
+            <td style="text-transform: capitalize;"><span
+                  class="badge text-bg-success">Active</span>
+            </td>
+            <% } else { %>
+            <td style="text-transform: capitalize;"><span
+                  class="badge text-bg-secondary">Non-Active</span>
+            </td>
+            <% } %>
+          </tr>
+
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+            data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

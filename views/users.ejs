@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/head.ejs', { title }) %>
+</head>
+
+<body>
+  <div class="d-flex">
+    <%- include('./partials/sidebar.ejs') %>
+    <main class="d-flex flex-column align-items-center" style="width: 100%">
+      <h1 class="fw-bold my-3"><%= title %></h1>
+      <!-- Alert message -->
+
+      <% if (alert != undefined) { %>
+      <div>
+        <% if (alert.message != "") { %>
+        <div class="alert alert-<%= alert.status %>" role="alert">
+          <%= alert.message %>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+
+      <div class="table-container" style="width: 80%">
+        <!-- Button modal add user -->
+        <button type="button" class="btn btn-outline-primary mb-3"
+            data-bs-toggle="modal" data-bs-target="#addModal">
+          <i class="fs-5 bi bi-plus"></i>
+        </button>
+
+        <!-- Modal add user -->
+        <%- include('./partials/users/userModal.ejs', { user: [], title: "Add new user" }) %>
+
+        <!-- Table of data -->
+        <table class="table table-bordered align-middle"
+            style="table-layout: fixed;">
+          <thead>
+            <tr class="text-center">
+              <th>No</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Is Active?</th>
+              <th>Detail</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let i = 1; %> <% users.forEach(user => { %>
+            <tr>
+              <td style="word-wrap: break-word" class="text-center">
+                <%= i %>
+              </td>
+              <td style="word-wrap: break-word">
+                <%= user.firstName + " " + user.lastName %></td>
+              <td style="word-wrap: break-word"><%= user.username %></td>
+              <% if (user.isActive) { %>
+              <td class="text-center"
+                  style="text-transform: capitalize; word-wrap: break-word">
+                <span class="badge text-bg-success">Active</span>
+              </td>
+              <% } else { %>
+              <td class="text-center"
+                  style="text-transform: capitalize; word-wrap: break-word">
+                <span class="badge text-bg-secondary">Non-Active</span>
+              </td>
+              <% } %>
+              <td class="text-center" style="word-wrap: break-word">
+                <!-- Button modal detail user -->
+                <button type="button" class="btn btn-outline-success btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailUser-<%= user._id %>">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+
+                <!-- Modal detail user -->
+                <%- include('./partials/users/detailUser.ejs', { user, 
+                  title: "Detail " + user.firstName + " " + user.lastName }) %>
+              </td>
+
+              <td class="text-center d-flex flex-row align-items-center justify-content-center"
+                  style="gap: 5px">
+                <!-- Button modal edit user  -->
+                <button type="button" class="btn btn-outline-warning btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal-<%= user._id %>">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <!-- Modal edit user -->
+                <%- include('./partials/users/userModal.ejs', { user, title: "Edit " + user.firstName + " " + user.lastName }) %>
+
+                <!-- Button delete user -->
+                <form action="/admin/users/<%= user._id %>?_method=DELETE"
+                    method="post">
+                  <button type="submit" class="btn btn-outline-danger btn-sm"
+                      onclick="return confirm('Delete <%= user.firstName + ` ` + user.lastName %>?');">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </form>
+              </td>
+
+            </tr>
+            <% i++; %>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <%- include('./partials/js.ejs') %>
+</body>
+
+</html>
