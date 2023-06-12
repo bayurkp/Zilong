@@ -11,8 +11,51 @@
       <div class="modal-body">
         <table class="table text-start">
           <tr>
-            <td class="fw-bold">Title</td>
-            <td><%= transaction.title %></td>
+            <td class="fw-bold" colspan="2">Member</td>
+            <% members.forEach(member => { %>
+            <% if (transaction.memberId == member._id.toString()) { %>
+            <td colspan="2"><%= member.firstName + " " + member.lastName %>
+              @<%= member.username %></td>
+            <% } %>
+            <% }) %>
+          </tr>
+          <tr>
+            <td class="fw-bold" colspan="2">Cashier</td>
+            <% cashiers.forEach(cashier => { %>
+            <% if (transaction.cashierId == cashier._id.toString()) { %>
+            <td colspan="2"><%= cashier.firstName + " " + cashier.lastName %>
+              @<%= cashier.username %></td>
+            <% } %>
+            <% }) %>
+          </tr>
+          <tr>
+            <td class="fw-bold text-center" colspan="4">Details</td>
+          </tr>
+          <tr>
+            <td class="fw-bold">Book</td>
+            <td class="fw-bold">Price (Rp)</td>
+            <td class="fw-bold">Disc (%)</td>
+            <td class="fw-bold">Qty</td>
+          </tr>
+          <% transaction.details.forEach(detail => { %>
+          <tr>
+            <% books.forEach(book => { %>
+            <% if (detail.bookId == book._id.toString()) { %>
+            <td><%= book.title %></td>
+            <% } %>
+            <% }) %>
+            <td>
+              <%= detail.price.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
+            </td>
+            <td><%= detail.discount %>%</td>
+            <td><%= detail.quantity %>x</td>
+          </tr>
+          <% }) %>
+          <tr>
+            <td colspan="2" class="fw-bold">Total</td>
+            <td colspan="2" class="fw-bold">
+              <%= transaction.total.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
+            </td>
           </tr>
         </table>
       </div>

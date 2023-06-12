@@ -1,0 +1,132 @@
+<form method="POST" action="/users/">
+  <div class="row">
+    <!-- First Name -->
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingFirstName"
+            placeholder="First Name" name="firstName" />
+        <label for="floatingFirstName">First Name</label>
+      </div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingLastName"
+            placeholder="Last Name" name="lastName" required />
+        <label for="floatingLastName">Last Name</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Username -->
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="floatingUsername"
+        placeholder="Username" name="username" required />
+    <label for="floatingUsername">Username</label>
+  </div>
+
+  <!-- Password -->
+  <div class="form-floating mb-3">
+    <input type="password" class="form-control" id="floatingPassword"
+        placeholder="Password" name="password" required />
+    <label for="floatingPassword">Password</label>
+  </div>
+  <button class="btn btn-outline-secondary btn-sm mb-3" type="button"
+      id="visibilityPassword"><i class='bi bi-eye-fill'></i> Show
+    Password</button>
+
+  <!-- Confirm Password -->
+  <div class="form-floating mb-3">
+    <input type="password" class="form-control" id="floatingConfirmPassword"
+        placeholder="Confirm Password" name="confirmPassword" required />
+    <label for="floatingConfirmPassword">Confirm Password</label>
+  </div>
+  <button class="btn btn-outline-secondary btn-sm mb-3" type="button"
+      id="visibilityConfirmPassword"><i class='bi bi-eye-fill'></i> Show
+    Password</button>
+
+  <!-- Address -->
+  <div class="form-floating mb-3">
+    <textarea type="number" class="form-control" id="floatingAddress"
+        placeholder="Address" name="address" required></textarea>
+    <label for="floatingAddress">Address</label>
+  </div>
+
+  <!-- Email -->
+  <div class="form-floating mb-3">
+    <input type="email" class="form-control" id="floatingEmail"
+        placeholder="Email" name="email" required />
+    <label for="floatingEmail">Email</label>
+  </div>
+
+  <!-- Phone -->
+  <div class="form-floating mb-3">
+    <input type="tel" class="form-control" id="floatingPhone"
+        placeholder="Phone" name="phone" required />
+    <label for="floatingPhone">Phone</label>
+  </div>
+
+  <!-- Role -->
+  <div class="form-floating mb-3">
+    <select name="role" class="form-select" id="floatingRole" required>
+      <option value="admin">Admin</option>
+      <option value="cashier">Cashier</option>
+      <option value="regular">Regular</option>
+      <option value="member">Member</option>
+    </select>
+    <label for="floatingRole">Role</label>
+  </div>
+
+  <!-- Is Active -->
+  <div class="text-start" width="100%">
+    Active
+    <br>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="isActive" value="1"
+          checked <% if (user.length == 0) { %> id="isActiveTrueAdd"
+          <% } else { %> id="isActiveTrueEdit" <% } %>>
+      <label class="form-check-label" <% if (user.length == 0) { %>
+          for="isActiveTrueAdd" <% } else { %> for="isActiveTrueEdit" <% } %>>
+        True
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="isActive" value="0"
+          <% if (user.length == 0) { %> disabled id="isActiveFalseAdd"
+          <% } else { %> id="isActiveFalseEdit" <% } %>>
+      <label class="form-check-label" <% if (user.length == 0) { %>
+          for="isActiveFalseAdd" <% } else { %> for="isActiveFalseEdit" <% } %>>
+        False
+      </label>
+    </div>
+  </div>
+  </div>
+
+</form>
+
+<script>
+  $("#visibilityPassword").on("click", () => {
+    if ($("#floatingPassword").attr("type") === "password") {
+      $("#visibilityPassword").html(
+        "<i class='bi bi-eye-slash-fill'></i> Hide Password");
+      $("#floatingPassword").attr("type", "text");
+    } else {
+      $("#floatingPassword").attr("type", "password");
+      $("#visibilityPassword").html(
+        "<i class='bi bi-eye-fill'></i> Show Password");
+    }
+  });
+
+  $("#visibilityConfirmPassword").on("click", () => {
+    if ($("#floatingConfirmPassword").attr("type") === "password") {
+      $("#visibilityConfirmPassword").html(
+        "<i class='bi bi-eye-slash-fill'></i> Hide Password");
+      $("#floatingConfirmPassword").attr("type", "text");
+    } else {
+      $("#floatingConfirmPassword").attr("type", "password");
+      $("#visibilityConfirmPassword").html(
+        "<i class='bi bi-eye-fill'></i> Show Password");
+    }
+  });
+</script>

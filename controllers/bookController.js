@@ -14,7 +14,7 @@ module.exports = {
         status: statusFlash.length > 0 ? statusFlash : undefined,
       };
 
-      return res.render("books", { books, alert, title: "Books" });
+      return res.render("books", { books, alert, role, title: "Books" });
     } catch (err) {
       return res.redirect("/");
     }

@@ -1,7 +1,6 @@
 <!-- Form Modal -->
-<form <% if (book.length == 0) { %> action="/admin/books" method="POST"
-    <% } else { %> action="/admin/books/<%= book._id %>?_method=PUT"
-    method="POST" <% } %>>
+<form <% if (book.length == 0) { %> action="/books" method="POST" <% } else { %>
+    action="/books/<%= book._id %>?_method=PUT" method="POST" <% } %>>
   <div class="modal fade" <% if (book.length == 0) { %> id="addModal"
       <% } else { %> id="editModal-<%= book._id %>" <% } %>
       data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">

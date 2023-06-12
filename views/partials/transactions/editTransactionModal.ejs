@@ -1,6 +1,5 @@
 <!-- Form Modal -->
-<form method="POST"
-    action="/admin/transactions/<%= transaction._id %>?_method=PUT">
+<form method="POST" action="/transactions/<%= transaction._id %>?_method=PUT">
   <div class="modal fade" id="editModal-<%= transaction._id %>"
       data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">

@@ -4,6 +4,11 @@ const User = require("../models/User");
 module.exports = {
   viewUser: async (req, res, next) => {
     try {
+      if (!req.session.loggedin) {
+        res.redirect("/login");
+      }
+
+      const role = req.session.role;
       const users = await User.find();
 
       const messageFlash = req.flash("message");
@@ -17,6 +22,7 @@ module.exports = {
       return res.render("users", {
         users,
         alert,
+        role,
         title: "Users",
       });
     } catch (err) {

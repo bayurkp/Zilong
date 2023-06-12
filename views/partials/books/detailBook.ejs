@@ -36,14 +36,14 @@
           </tr>
           <tr>
             <td class="fw-bold">Price</td>
-            <td>Rp. <%= book.price %>,00</td>
+            <td>
+              <%= book.price.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
+            </td>
           </tr>
           <tr>
             <td class="fw-bold">Stock</td>
             <td><%= book.stock %></td>
           </tr>
-
-
         </table>
       </div>
       <div class="modal-footer">

@@ -59,9 +59,32 @@
                 <% }) %>
               </td>
               <td style="word-wrap: break-word">
-                <%= transaction.createdAt %></td>
-              <td style="word-wrap: break-word">
-                Rp. <%= transaction.total %>,00</td>
+                <%= transaction.createdAt.getDate() +
+                "/" + (transaction.createdAt.getMonth() + 1) +
+                "/" + transaction.createdAt.getFullYear()
+                %>
+
+                <% if (transaction.createdAt.getHours().toString().length == 1) { %>
+                <%= " " + 0 + transaction.createdAt.getHours() %>
+                <% } else { %>
+                <%= " " + transaction.createdAt.getHours() %>
+                <% } %>
+
+                <% if (transaction.createdAt.getMinutes().toString().length == 1) { %>
+                <%= ": " + 0 + transaction.createdAt.getMinutes() %>
+                <% } else { %>
+                <%= ": " + transaction.createdAt.getMinutes() %>
+                <% } %>
+
+                <% if (transaction.createdAt.getSeconds().toString().length == 1) { %>
+                <%= ": " + 0 + transaction.createdAt.getSeconds() %>
+                <% } else { %>
+                <%= ": " + transaction.createdAt.getSeconds() %>
+                <% } %>
+              </td>
+              <td style="word-wrap: break-word" class="text-end">
+                <%= transaction.total.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
+              </td>
               <td class="text-center" style="word-wrap: break-word">
                 <!-- Button modal detail transaction -->
                 <button type="button" class="btn btn-outline-success btn-sm"
@@ -71,30 +94,33 @@
                 </button>
 
                 <!-- Modal detail transaction -->
-                <%- include('./partials/transactions/detailTransaction.ejs', { transaction, 
-                  title: "Detail Transactions" }) %>
+                <%- include('./partials/transactions/detailTransaction.ejs', { transaction, cashiers, members, books, title: "Detail Transactions" }) %>
               </td>
 
-              <td class="text-center d-flex flex-row align-items-center justify-content-center"
-                  style="gap: 5px">
-                <!-- Button modal edit transaction  -->
-                <button type="button" class="btn btn-outline-warning btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal-<%= transaction._id %>">
-                  <i class="bi bi-pencil-fill"></i>
-                </button>
-                <!-- Modal edit transaction -->
-                <%-  include('./partials/transactions/editTransactionModal.ejs', { transaction, title: "Edit " + transaction.lastName }) %>
+              <td class="text-center">
+                <div class="d-flex flex-row align-items-center
+                    justify-content-center" style="gap: 5px">
 
-                <!-- Button delete transaction -->
-                <form
-                    action="/admin/transactions/<%= transaction._id %>?_method=DELETE"
-                    method="post">
-                  <button type="submit" class="btn btn-outline-danger btn-sm"
-                      onclick="return confirm('Delete <%= transaction.firstName + ` ` + transaction.lastName %>?');">
-                    <i class="bi bi-trash-fill"></i>
+                  <!-- Button modal edit transaction  -->
+                  <button type="button" class="btn btn-outline-warning btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editModal-<%= transaction._id %>">
+                    <i class="bi bi-pencil-fill"></i>
                   </button>
-                </form>
+
+                  <!-- Modal edit transaction -->
+                  <%-  include('./partials/transactions/editTransactionModal.ejs', { transaction, cashiers, members, books, title: "Edit " + transaction.lastName }) %>
+
+                  <!-- Button delete transaction -->
+                  <form
+                      action="/transactions/<%= transaction._id %>?_method=DELETE"
+                      method="post">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                        onclick="return confirm('Delete <%= transaction.firstName + ` ` + transaction.lastName %>?');">
+                      <i class="bi bi-trash-fill"></i>
+                    </button>
+                  </form>
+                </div>
               </td>
 
             </tr>

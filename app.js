@@ -43,9 +43,9 @@ mongoose.connect("mongodb://127.0.0.1:27017/zilonglocal", {
 });
 
 app.use("/", indexRouter);
-app.use("/admin/books", booksRouter);
-app.use("/admin/users", usersRouter);
-app.use("/admin/transactions", transactionsRouter);
+app.use("/books", booksRouter);
+app.use("/users", usersRouter);
+app.use("/transactions", transactionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

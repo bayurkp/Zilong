@@ -70,7 +70,7 @@
                 <%- include('./partials/books/bookModal.ejs', { book, title: "Edit " + book.title }) %>
 
                 <!-- Button delete book -->
-                <form action="/admin/books/<%= book._id %>?_method=DELETE"
+                <form action="/books/<%= book._id %>?_method=DELETE"
                     method="post">
                   <button type="submit" class="btn btn-outline-danger btn-sm"
                       onclick="return confirm('Delete <%= book.title %>?');">

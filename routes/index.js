@@ -13,6 +13,10 @@ router.get("/login", (req, res) => {
   return res.render("login", { title: "Log In" });
 });
 
+router.get("/register", (req, res) => {
+  return res.render("register", { title: "Register" });
+});
+
 router.post("/auth", async (req, res) => {
   try {
     console.log(req.body);
@@ -32,6 +36,7 @@ router.post("/auth", async (req, res) => {
       req.session.role = userCreds.role;
       return res.redirect("/");
     }
+
     return res.redirect("/login");
   } catch (err) {
     console.error(err);

@@ -90,7 +90,7 @@
                 <%- include('./partials/users/userModal.ejs', { user, title: "Edit " + user.firstName + " " + user.lastName }) %>
 
                 <!-- Button delete user -->
-                <form action="/admin/users/<%= user._id %>?_method=DELETE"
+                <form action="/users/<%= user._id %>?_method=DELETE"
                     method="post">
                   <button type="submit" class="btn btn-outline-danger btn-sm"
                       onclick="return confirm('Delete <%= user.firstName + ` ` + user.lastName %>?');">

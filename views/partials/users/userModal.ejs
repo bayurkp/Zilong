@@ -1,6 +1,6 @@
 <!-- Form Modal -->
 <form <% if (user.length == 0) { %> method="POST" <% } else { %>
-    action="/admin/users/<%= user._id %>?_method=PUT" method="POST" <% } %>>
+    action="/users/<%= user._id %>?_method=PUT" method="POST" <% } %>>
   <div class="modal fade" <% if (user.length == 0) { %> id="addModal"
       <% } else { %> id="editModal-<%= user._id %>" <% } %>
       data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">

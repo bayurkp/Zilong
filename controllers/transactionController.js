@@ -25,6 +25,7 @@ module.exports = {
         members,
         books,
         alert,
+        role,
         title: "Transactions",
       });
     } catch (err) {
@@ -73,11 +74,11 @@ module.exports = {
 
       req.flash("message", "Success add a transaction");
       req.flash("status", "success");
-      return res.redirect("/admin/transactions");
+      return res.redirect("/transactions");
     } catch (err) {
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/transactions");
+      return res.redirect("/transactions");
     }
   },
   editTransaction: async (req, res) => {
@@ -124,11 +125,11 @@ module.exports = {
 
       req.flash("message", "Success edit a transaction");
       req.flash("status", "success");
-      return res.redirect("/admin/transactions");
+      return res.redirect("/transactions");
     } catch (err) {
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/transactions");
+      return res.redirect("/transactions");
     }
   },
   removeTransaction: async (req, res) => {
@@ -138,11 +139,11 @@ module.exports = {
 
       req.flash("message", "Success remove a transaction");
       req.flash("status", "warning");
-      return res.redirect("/admin/transactions");
+      return res.redirect("/transactions");
     } catch (err) {
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/transactions");
+      return res.redirect("/transactions");
     }
   },
 };
