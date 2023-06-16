@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Transaction = require("../models/Transaction");
 const User = require("../models/User");
 const Book = require("../models/Book");
+const moment = require("moment");
 
 module.exports = {
   viewTransaction: async (req, res) => {
@@ -25,10 +26,13 @@ module.exports = {
         members,
         books,
         alert,
-        role,
+        session: req.session,
+        moment,
         title: "Transactions",
+        onReport: null,
       });
     } catch (err) {
+      console.log(err);
       return res.redirect("/");
     }
   },

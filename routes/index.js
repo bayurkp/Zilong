@@ -6,7 +6,7 @@ const User = require("../models/User");
 router.get("/", (req, res, next) => {
   if (req.session.loggedin == undefined || req.session.loggedin == false)
     return res.redirect("/login");
-  return res.render("index", { title: "Home" });
+  return res.render("index", { session: req.session, title: "Home" });
 });
 
 router.get("/login", (req, res) => {
@@ -43,13 +43,13 @@ router.post("/auth", async (req, res) => {
   }
 });
 
-router.delete("/auth", async (req, res) => {
+router.delete("/auth", (req, res) => {
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
         console.err(err);
       } else {
-        res.redirect("/login", { title: "Log In" });
+        res.redirect("/login");
       }
     });
   } else {

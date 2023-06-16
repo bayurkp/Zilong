@@ -1,0 +1,455 @@
+<!-- Books Form -->
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="filterTitle" placeholder="Title"
+      name="title" />
+  <label for="filterTitle">Title</label>
+</div>
+
+<!-- Author -->
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="filterAuthor" placeholder="Author"
+      name="author" />
+  <label for="filterAuthor">Author</label>
+</div>
+
+<!-- Publisher -->
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" id="filterPublisher"
+      placeholder="Publisher" name="publisher" />
+  <label for="filterPublisher">Publisher</label>
+</div>
+
+<!-- Publication Year -->
+<hr>
+<div id="containerPublicationYear">
+  <p class="mb-3">By Publication Year</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionPublicationYearButton"
+          type="radio" name="publicationYear" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionPublicationYearButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangePublicationYearButton"
+          type="radio" name="publicationYear" value="byRange">
+      <label class="form-check-label" for="byRangePublicationYearButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormPublicationYear">
+    <!-- Use condition -->
+    <div id="byConditionPublicationYearForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="publicationYear" class="form-select"
+              id="operatorPublicationYear">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorPublicationYear">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valuePublicationYear"
+              placeholder="Value" min="1800" max="2023" step="1"
+              name="publicationYear" />
+          <label for="valuePublicationYear">Value</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangePublicationYearForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control"
+              id="startValuePublicationYear" placeholder="Start" min="1800"
+              max="2023" step="1" name="publicationYear" />
+          <label for="startValuePublicationYear">Start</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="endValuePublicationYear"
+              placeholder="End" min="1800" max="2023" step="1"
+              name="publicationYear" />
+          <label for="endValuePublicationYear">End</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='publicationYear']").click(function() {
+        let formPublicationYearId = "#" + $(this).val() +
+          "PublicationYearForm";
+        console.log(formPublicationYearId);
+        $(formPublicationYearId).show();
+        $("#containerFormPublicationYear").children().not($(
+            formPublicationYearId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Number of Pages -->
+<hr>
+<div id="containerNumberOfPages">
+  <p class="mb-3">By Number of Pages</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionNumberOfPagesButton"
+          type="radio" name="numberOfPages" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionNumberOfPagesButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangeNumberOfPagesButton"
+          type="radio" name="numberOfPages" value="byRange">
+      <label class="form-check-label" for="byRangeNumberOfPagesButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormNumberOfPages">
+    <!-- Use condition -->
+    <div id="byConditionNumberOfPagesForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="numberOfPages" class="form-select"
+              id="operatorNumberOfPages">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorNumberOfPages">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valueNumberOfPages"
+              placeholder="Value" min="1" step="1" name="numberOfPages" />
+          <label for="valueNumberOfPages">Value</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangeNumberOfPagesForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="startValueNumberOfPages"
+              placeholder="Start" min="1" step="1" name="numberOfPages" />
+          <label for="startValueNumberOfPages">Start</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="endValueNumberOfPages"
+              placeholder="End" min="1" step="1" name="numberOfPages" />
+          <label for="endValueNumberOfPages">End</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='numberOfPages']").click(function() {
+        let formNumberOfPagesId = "#" + $(this).val() +
+          "NumberOfPagesForm";
+        console.log(formNumberOfPagesId);
+        $(formNumberOfPagesId).show();
+        $("#containerFormNumberOfPages").children().not($(
+            formNumberOfPagesId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Price -->
+<hr>
+<div id="containerPrice">
+  <p class="mb-3">By Price</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionPriceButton" type="radio"
+          name="price" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionPriceButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangePriceButton" type="radio"
+          name="price" value="byRange">
+      <label class="form-check-label" for="byRangePriceButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormPrice">
+    <!-- Use condition -->
+    <div id="byConditionPriceForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="price" class="form-select" id="operatorPrice">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorPrice">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valuePrice"
+              placeholder="Value" step="1" name="price" />
+          <label for="valuePrice">Value (Rp)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangePriceForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="startValuePrice"
+              placeholder="Start" min="1800" max="2023" step="1" name="price" />
+          <label for="startValuePrice">Start (Rp)</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="endValuePrice"
+              placeholder="End" min="1800" max="2023" step="1" name="price" />
+          <label for="endValuePrice">End (Rp)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='price']").click(function() {
+        let formPriceId = "#" + $(this).val() +
+          "PriceForm";
+        console.log(formPriceId);
+        $(formPriceId).show();
+        $("#containerFormPrice").children().not($(
+            formPriceId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Stock -->
+<hr>
+<div id="containerStock">
+  <p class="mb-3">By Stock</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionStockButton" type="radio"
+          name="stock" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionStockButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangeStockButton" type="radio"
+          name="stock" value="byRange">
+      <label class="form-check-label" for="byRangeStockButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormStock">
+    <!-- Use condition -->
+    <div id="byConditionStockForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="stock" class="form-select" id="operatorStock">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorStock">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valueStock"
+              placeholder="Value" min="1800" max="2023" step="1" name="stock" />
+          <label for="valueStock">Value</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangeStockForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="startValueStock"
+              placeholder="Start" min="1800" max="2023" step="1" name="stock" />
+          <label for="startValueStock">Start</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="endValueStock"
+              placeholder="End" min="1800" max="2023" step="1" name="stock" />
+          <label for="endValueStock">End</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='stock']").click(function() {
+        let formStockId = "#" + $(this).val() +
+          "StockForm";
+        console.log(formStockId);
+        $(formStockId).show();
+        $("#containerFormStock").children().not($(
+            formStockId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Genre -->
+<hr>
+<p class="mb-2">By Genre</p>
+<table class="table text-start">
+  <tr>
+    <td class="ms-3">
+      <div class="form-check">
+        <!-- Horror -->
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Horror" id="filterGenreHorror" />
+        <label class="form-check-label" for="filterGenreHorror">
+          Horror
+        </label>
+      </div>
+
+      <!-- Comedy -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Comedy" id="filterGenreComedy" />
+        <label class="form-check-label" for="filterGenreComedy">
+          Comedy
+        </label>
+      </div>
+
+      <!-- Fiction -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Fiction" id="filterGenreFiction" />
+        <label class="form-check-label" for="filterGenreFiction">
+          Fiction
+        </label>
+      </div>
+
+      <!-- Romance -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Romance" id="filterGenreRomance" />
+        <label class="form-check-label" for="filterGenreRomance">
+          Romance
+        </label>
+      </div>
+
+      <!-- Fantasy -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Fantasy" id="filterGenreFantasy" />
+        <label class="form-check-label" for="filterGenreFantasy">
+          Fantasy
+        </label>
+      </div>
+    </td>
+
+    <!-- Historical -->
+    <td class="ms-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Historical" id="filterGenreHistorical" />
+        <label class="form-check-label" for="filterGenreHistorical">
+          Historical
+        </label>
+      </div>
+
+      <!-- Sci-Fi -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Science Fiction" id="filterGenreScienceFiction" />
+        <label class="form-check-label" for="filterGenreScienceFiction">
+          Science Fiction
+        </label>
+      </div>
+
+      <!-- Non Fiction -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Non Fiction" id="filterGenreNonFiction" />
+        <label class="form-check-label" for="filterGenreNonFiction">
+          Non Fiction
+        </label>
+      </div>
+
+      <!-- Children's -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Children's" id="filterGenreChildrens" />
+        <label class="form-check-label" for="filterGenreChildrens">
+          Children's
+        </label>
+      </div>
+
+      <!-- Other -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="genre"
+            value="Other" id="filterGenreOther" />
+        <label class="form-check-label" for="filterGenreOther">
+          Other
+        </label>
+      </div>
+    </td>
+  </tr>
+</table>
+<!-- End of Genre -->

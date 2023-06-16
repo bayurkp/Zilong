@@ -23,18 +23,31 @@
       <% } %>
 
       <div class="table-container" style="width: 80%">
-        <!-- Button modal add user -->
-        <button type="button" class="btn btn-outline-primary mb-3"
-            data-bs-toggle="modal" data-bs-target="#addModal">
-          <i class="fs-5 bi bi-plus"></i>
-        </button>
-
+        <div id="buttons" class="d-flex flex-row gap-1">
+          <% if (session.role == "admin" && onReport == null) { %>
+          <!-- Button modal add user -->
+          <button type="button" class="btn btn-outline-primary mb-3"
+              data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="fs-5 bi bi-plus"></i>
+          </button>
+          <% } %>
+        </div>
         <!-- Modal add user -->
         <%- include('./partials/users/userModal.ejs', { user: [], title: "Add new user" }) %>
 
+        <% if (onReport != null) { %>
+        <!-- Button modal filter -->
+        <button type="button" class="btn btn-outline-success mb-3"
+            data-bs-toggle="modal" data-bs-target="#reportModal">
+          <i class="bi bi-filter"></i>
+        </button>
+
+        <!-- Modal filter -->
+        <%- include('./partials/report/reportModal.ejs', { title: "Filter" }) %>
+        <% } %>
+
         <!-- Table of data -->
-        <table class="table table-bordered align-middle"
-            style="table-layout: fixed;">
+        <table class="table table-bordered align-middle">
           <thead>
             <tr class="text-center">
               <th>No</th>
@@ -45,15 +58,26 @@
               <th>Action</th>
             </tr>
           </thead>
+          <% if (users.length == 0) { %>
+          <tbody>
+            <tr>
+              <% if (session.role == 'admin') { %>
+              <td colspan="6" class="text-center">No entries</td>
+              <% } else { %>
+              <td colspan="5" class="text-center">No entries</td>
+              <% } %>
+            </tr>
+          </tbody>
+          <% } else { %>
           <tbody>
             <% let i = 1; %> <% users.forEach(user => { %>
             <tr>
-              <td style="word-wrap: break-word" class="text-center">
+              <td class="text-center">
                 <%= i %>
               </td>
-              <td style="word-wrap: break-word">
-                <%= user.firstName + " " + user.lastName %></td>
-              <td style="word-wrap: break-word"><%= user.username %></td>
+              <td>
+                <%= user.name.firstName + " " + user.name.lastName %></td>
+              <td><%= user.username %></td>
               <% if (user.isActive) { %>
               <td class="text-center"
                   style="text-transform: capitalize; word-wrap: break-word">
@@ -65,7 +89,7 @@
                 <span class="badge text-bg-secondary">Non-Active</span>
               </td>
               <% } %>
-              <td class="text-center" style="word-wrap: break-word">
+              <td class="text-center">
                 <!-- Button modal detail user -->
                 <button type="button" class="btn btn-outline-success btn-sm"
                     data-bs-toggle="modal"
@@ -75,7 +99,7 @@
 
                 <!-- Modal detail user -->
                 <%- include('./partials/users/detailUser.ejs', { user, 
-                  title: "Detail " + user.firstName + " " + user.lastName }) %>
+                  title: "Detail " + user.name.firstName + " " + user.name.lastName }) %>
               </td>
 
               <td class="text-center d-flex flex-row align-items-center justify-content-center"
@@ -87,13 +111,13 @@
                   <i class="bi bi-pencil-fill"></i>
                 </button>
                 <!-- Modal edit user -->
-                <%- include('./partials/users/userModal.ejs', { user, title: "Edit " + user.firstName + " " + user.lastName }) %>
+                <%- include('./partials/users/userModal.ejs', { user, title: "Edit " + user.name.firstName + " " + user.name.lastName }) %>
 
                 <!-- Button delete user -->
                 <form action="/users/<%= user._id %>?_method=DELETE"
                     method="post">
                   <button type="submit" class="btn btn-outline-danger btn-sm"
-                      onclick="return confirm('Delete <%= user.firstName + ` ` + user.lastName %>?');">
+                      onclick="return confirm('Delete <%= user.name.firstName + ` ` + user.name.lastName %>?');">
                     <i class="bi bi-trash-fill"></i>
                   </button>
                 </form>
@@ -103,6 +127,7 @@
             <% i++; %>
             <% }) %>
           </tbody>
+          <% } %>
         </table>
       </div>
     </main>

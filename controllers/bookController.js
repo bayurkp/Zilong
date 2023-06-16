@@ -14,7 +14,15 @@ module.exports = {
         status: statusFlash.length > 0 ? statusFlash : undefined,
       };
 
-      return res.render("books", { books, alert, role, title: "Books" });
+      console.log(req.session.role);
+
+      return res.render("books", {
+        books,
+        alert,
+        session: req.session,
+        title: "Books",
+        onReport: null,
+      });
     } catch (err) {
       return res.redirect("/");
     }
@@ -24,18 +32,18 @@ module.exports = {
       if (req.body.genre.length == 0) {
         req.flash("message", "Genre must be added!");
         req.flash("status", "danger");
-        return res.redirect("/admin/books");
+        return res.redirect("/books");
       }
 
       await Book.create(req.body);
 
       req.flash("message", "Success add a book");
       req.flash("status", "success");
-      return res.redirect("/admin/books");
+      return res.redirect("/books");
     } catch (err) {
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/books");
+      return res.redirect("/books");
     }
   },
   editBook: async (req, res) => {
@@ -44,11 +52,11 @@ module.exports = {
 
       req.flash("message", "Success edit a book");
       req.flash("status", "success");
-      return res.redirect("/admin/books");
+      return res.redirect("/books");
     } catch (err) {
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/books");
+      return res.redirect("/books");
     }
   },
   removeBook: async (req, res) => {
@@ -58,11 +66,11 @@ module.exports = {
 
       req.flash("message", "Success remove a book");
       req.flash("status", "warning");
-      return res.redirect("/admin/books");
+      return res.redirect("/books");
     } catch (err) {
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/books");
+      return res.redirect("/books");
     }
   },
 };

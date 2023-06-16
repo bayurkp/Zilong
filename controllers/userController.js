@@ -8,7 +8,6 @@ module.exports = {
         res.redirect("/login");
       }
 
-      const role = req.session.role;
       const users = await User.find();
 
       const messageFlash = req.flash("message");
@@ -22,12 +21,13 @@ module.exports = {
       return res.render("users", {
         users,
         alert,
-        role,
+        session: req.session,
         title: "Users",
+        onReport: null,
       });
     } catch (err) {
       console.log(err);
-      return res.redirect("/admin/users/");
+      return res.redirect("/users");
     }
   },
   addUser: async (req, res, next) => {
@@ -45,7 +45,10 @@ module.exports = {
         isActive,
       } = req.body;
 
-      const booleanIsActive = isActive === "1" ? true : false;
+      console.log(req.body);
+
+      const booleanIsActive =
+        isActive == "1" || isActive == undefined ? true : false;
 
       // Is username available?
 
@@ -53,7 +56,7 @@ module.exports = {
       if (password != confirmPassword) {
         req.flash("message", "The passwords are not matched");
         req.flash("status", "danger");
-        return res.redirect("/admin/users/");
+        return res.redirect("/users");
       }
 
       // Is email used?
@@ -62,8 +65,7 @@ module.exports = {
       const hashedPassword = await bcrypt.hashSync(password, salt);
 
       await User.create({
-        firstName,
-        lastName,
+        name: { firstName, lastName },
         username,
         password: hashedPassword,
         address,
@@ -75,26 +77,47 @@ module.exports = {
 
       req.flash("message", "Success add a user");
       req.flash("status", "success");
-      return res.redirect("/admin/users/");
+      return res.redirect("/users");
     } catch (err) {
       console.log(err);
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/users/");
+      return res.redirect("/users");
     }
   },
   editUser: async (req, res, next) => {
     try {
-      await User.findByIdAndUpdate(req.params.id, req.body);
+      let updateData = req.body;
+      updateData.name = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+      };
+
+      if (req.body.password != req.body.confirmPassword) {
+        req.flash("message", "The passwords are not matched");
+        req.flash("status", "danger");
+        return res.redirect("/users");
+      }
+
+      const salt = await bcrypt.genSaltSync();
+      const hashedPassword = await bcrypt.hashSync(req.body.password, salt);
+
+      updateData.password = hashedPassword;
+
+      delete updateData.firstName;
+      delete updateData.lastName;
+      console.log(updateData);
+
+      await User.findByIdAndUpdate(req.params.id, updateData);
 
       req.flash("message", "Success edit a user");
       req.flash("status", "success");
-      return res.redirect("/admin/users/");
+      return res.redirect("/users");
     } catch (err) {
       console.error(err);
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/users/");
+      return res.redirect("/users");
     }
   },
   removeUser: async (req, res, next) => {
@@ -103,12 +126,12 @@ module.exports = {
 
       req.flash("message", "Success delete a user");
       req.flash("status", "success");
-      return res.redirect("/admin/users/");
+      return res.redirect("/users/");
     } catch (err) {
       console.error(err);
       req.flash("message", `${err.message}`);
       req.flash("status", "danger");
-      return res.redirect("/admin/users/");
+      return res.redirect("/users");
     }
   },
 };

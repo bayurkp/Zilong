@@ -1,7 +1,6 @@
 <div class="modal fade" id="detailTransaction-<%= transaction._id %>"
     data-bs-keyboard="false" tabindex="-1">
-  <div
-      class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5"><%= title %></h1>
@@ -11,10 +10,16 @@
       <div class="modal-body">
         <table class="table text-start">
           <tr>
+            <td class="fw-bold" colspan="2">Timestamp</td>
+            <td colspan="2"><%= moment(transaction.createdAt).format("LLLL") %>
+            </td>
+          </tr>
+          <tr>
             <td class="fw-bold" colspan="2">Member</td>
             <% members.forEach(member => { %>
             <% if (transaction.memberId == member._id.toString()) { %>
-            <td colspan="2"><%= member.firstName + " " + member.lastName %>
+            <td colspan="2">
+              <%= member.name.firstName + " " + member.name.lastName %>
               @<%= member.username %></td>
             <% } %>
             <% }) %>
@@ -23,7 +28,8 @@
             <td class="fw-bold" colspan="2">Cashier</td>
             <% cashiers.forEach(cashier => { %>
             <% if (transaction.cashierId == cashier._id.toString()) { %>
-            <td colspan="2"><%= cashier.firstName + " " + cashier.lastName %>
+            <td colspan="2">
+              <%= cashier.name.firstName + " " + cashier.name.lastName %>
               @<%= cashier.username %></td>
             <% } %>
             <% }) %>
@@ -53,7 +59,7 @@
           <% }) %>
           <tr>
             <td colspan="2" class="fw-bold">Total</td>
-            <td colspan="2" class="fw-bold">
+            <td colspan="2" class="fw-bold text-end">
               <%= transaction.total.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
             </td>
           </tr>

@@ -1,0 +1,491 @@
+<!-- Transactions -->
+
+<!-- Member -->
+<div class="form-floating mb-3">
+  <select name="memberId" class="form-select" id="filterMemberId">
+    <option value="" selected>All</option>
+    <% allMembers.forEach(member => { %>
+    <option value="<%= member._id %>">
+      <%= member.name.firstName %> <%= member.name.lastName %>
+      @<%= member.username %>
+    </option>
+    <% }) %>
+  </select>
+  <label for="filterMemberId">Member</label>
+</div>
+
+<!-- Cashier -->
+<div class="form-floating mb-3">
+  <select name="cashierId" class="form-select" id="filterCashierId">
+    <option value="" selected>All</option>
+    <% allCashiers.forEach(cashier => { %>
+    <option value="<%= cashier._id %>">
+      <%= cashier.name.firstName %> <%= cashier.name.lastName %>
+      @<%= cashier.username %>
+    </option>
+    <% }) %>
+  </select>
+  <label for="filterCashierId">Cashier</label>
+</div>
+
+<!-- Total -->
+<hr>
+<div id="containerTotal">
+  <p class="mb-3">By Total</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionTotalButton" type="radio"
+          name="total" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionTotalButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangeTotalButton" type="radio"
+          name="total" value="byRange">
+      <label class="form-check-label" for="byRangeTotalButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormTotal">
+    <!-- Use condition -->
+    <div id="byConditionTotalForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="total" class="form-select" id="operatorTotal">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorTotal">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valueTotal"
+              placeholder="Value" step="1" name="total" />
+          <label for="valueTotal">Value (Rp)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangeTotalForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="startValueTotal"
+              placeholder="Start" name="total" />
+          <label for="startValueTotal">Start (Rp)</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="endValueTotal"
+              placeholder="End" name="total" />
+          <label for="endValueTotal">End (Rp)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='total']").click(function() {
+        let formTotalId = "#" + $(this).val() +
+          "TotalForm";
+        console.log(formTotalId);
+        $(formTotalId).show();
+        $("#containerFormTotal").children().not($(
+            formTotalId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Books -->
+<hr>
+<div id="filterBooks">
+  <p class="mb-3">By Sold Book</p>
+</div>
+
+<!-- Add book filter -->
+<button type="button" class="btn btn-sm btn-outline-primary mb-3"
+    onclick="addFilterBook()">
+  <i class="bi bi-plus"></i>
+</button>
+
+<!-- Add/Delete book filter -->
+<script>
+  let bookAfterId = 1;
+  const addFilterBook = () => {
+    $("#filterBooks").append(`
+    <div id="book-${bookAfterId}">
+      <hr>
+      <!-- Select book -->
+      <div class="form-floating mb-3">
+        <select name="bookId" class="form-select mb-3" id="filterBookId"
+            required>
+          <% allBooks.forEach(book => { %>
+          <option value="<%= book._id %>">
+            <%= book.title %> - Rp.
+            <%= book.price.toLocaleString("id-ID", {style: "currency", currency:"IDR"}) %>
+          </option>
+          <% }) %>
+        </select>
+        <label for="filterBookId">Book</label>
+      </div>
+      <!-- Delete book filter (above) -->
+      <button type="button" class="btn btn-sm mb-3 btn-outline-warning"
+          onclick="removeTransactionDetail('#book-${bookAfterId}')">
+        <i class="bi bi-dash"></i>
+      </button>
+    </div>
+    `);
+    bookAfterId++;
+  }
+
+  const removeFilterBook = id => $(id).remove();
+</script>
+
+<!-- Price -->
+<hr>
+<div id="containerPriceInDetail">
+  <p class="mb-3">By Price In Detail</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionPriceInDetailButton"
+          type="radio" name="priceInDetail" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionPriceInDetailButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangePriceInDetailButton"
+          type="radio" name="priceInDetail" value="byRange">
+      <label class="form-check-label" for="byRangePriceInDetailButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormPriceInDetail">
+    <!-- Use condition -->
+    <div id="byConditionPriceInDetailForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="priceInDetail" class="form-select"
+              id="operatorPriceInDetail">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorPriceInDetail">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valuePriceInDetail"
+              placeholder="Value" step="1" name="priceInDetail" />
+          <label for="valuePriceInDetail">Value (Rp)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangePriceInDetailForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="startValuePriceInDetail"
+              placeholder="Start" name="priceInDetail" />
+          <label for="startValuePriceInDetail">Start (Rp)</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="endValuePriceInDetail"
+              placeholder="End" name="priceInDetail" />
+          <label for="endValuePriceInDetail">End (Rp)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='priceInDetail']").click(function() {
+        let formPriceInDetailId = "#" + $(this).val() +
+          "PriceInDetailForm";
+        console.log(formPriceInDetailId);
+        $(formPriceInDetailId).show();
+        $("#containerFormPriceInDetail").children().not($(
+            formPriceInDetailId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Discount -->
+<hr>
+<div id="containerDiscountInDetail">
+  <p class="mb-3">By Discount In Detail</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionDiscountInDetailButton"
+          type="radio" name="discountInDetail" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionDiscountInDetailButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangeDiscountInDetailButton"
+          type="radio" name="discountInDetail" value="byRange">
+      <label class="form-check-label" for="byRangeDiscountInDetailButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormDiscountInDetail">
+    <!-- Use condition -->
+    <div id="byConditionDiscountInDetailForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="discountInDetail" class="form-select"
+              id="operatorDiscountInDetail">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorDiscountInDetail">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valueDiscountInDetail"
+              placeholder="Value" name="discountInDetail" />
+          <label for="valueDiscountInDetail">Value (Rp)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangeDiscountInDetailForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control"
+              id="startValueDiscountInDetail" placeholder="Start"
+              name="discountInDetail" />
+          <label for="startValueDiscountInDetail">Start (Rp)</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control"
+              id="endValueDiscountInDetail" placeholder="End"
+              name="discountInDetail" />
+          <label for="endValueDiscountInDetail">End (Rp)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='discountInDetail']").click(function() {
+        let formDiscountInDetailId = "#" + $(this).val() +
+          "DiscountInDetailForm";
+        console.log(formDiscountInDetailId);
+        $(formDiscountInDetailId).show();
+        $("#containerFormDiscountInDetail").children().not($(
+            formDiscountInDetailId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Quantity -->
+<hr>
+<div id="containerQuantityInDetail">
+  <p class="mb-3">By Quantity In Detail</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionQuantityInDetailButton"
+          type="radio" name="quantityInDetail" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionQuantityInDetailButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangeQuantityInDetailButton"
+          type="radio" name="quantityInDetail" value="byRange">
+      <label class="form-check-label" for="byRangeQuantityInDetailButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormQuantityInDetail">
+    <!-- Use condition -->
+    <div id="byConditionQuantityInDetailForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="quantityInDetail" class="form-select"
+              id="operatorQuantityInDetail">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorQuantityInDetail">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valueQuantityInDetail"
+              placeholder="Value" step="1" name="quantityInDetail" />
+          <label for="valueQuantityInDetail">Value (Rp)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangeQuantityInDetailForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control"
+              id="startValueQuantityInDetail" placeholder="Start"
+              name="quantityInDetail" />
+          <label for="startValueQuantityInDetail">Start (Rp)</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control"
+              id="endValueQuantityInDetail" placeholder="End"
+              name="quantityInDetail" />
+          <label for="endValueQuantityInDetail">End (Rp)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='quantityInDetail']").click(function() {
+        let formQuantityInDetailId = "#" + $(this).val() +
+          "QuantityInDetailForm";
+        console.log(formQuantityInDetailId);
+        $(formQuantityInDetailId).show();
+        $("#containerFormQuantityInDetail").children().not($(
+            formQuantityInDetailId))
+          .hide();
+      });
+    });
+  </script>
+</div>
+
+<!-- Timestamp -->
+<hr>
+<div id="containerTimestamp">
+  <p class="mb-3">By Timestamp</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionTimestampButton"
+          type="radio" name="timestamp" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionTimestampButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangeTimestampButton" type="radio"
+          name="timestamp" value="byRange">
+      <label class="form-check-label" for="byRangeTimestampButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormTimestamp">
+    <!-- Use condition -->
+    <div id="byConditionTimestampForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="timestamp" class="form-select" id="operatorTimestamp">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorTimestamp">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="datetime-local" class="form-control" id="valueTimestamp"
+              placeholder="Value" step="1" name="timestamp" />
+          <label for="valueTimestamp">Value (Rp)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangeTimestampForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="datetime-local" class="form-control"
+              id="startValueTimestamp" placeholder="Start" name="timestamp" />
+          <label for="startValueTimestamp">Start (Rp)</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="datetime-local" class="form-control"
+              id="endValueTimestamp" placeholder="End" name="timestamp" />
+          <label for="endValueTimestamp">End (Rp)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='timestamp']").click(function() {
+        let formTimestampId = "#" + $(this).val() +
+          "TimestampForm";
+        console.log(formTimestampId);
+        $(formTimestampId).show();
+        $("#containerFormTimestamp").children().not($(
+            formTimestampId))
+          .hide();
+      });
+    });
+  </script>
+</div>

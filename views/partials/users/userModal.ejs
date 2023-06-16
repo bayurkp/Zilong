@@ -21,8 +21,8 @@
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="floatingFirstName"
                     placeholder="First Name" name="firstName"
-                    <% if (user.length != 0) { %> value="<%= user.firstName %>"
-                    <% } %> />
+                    <% if (user.length != 0) { %>
+                    value="<%= user.name.firstName %>" <% } %> />
                 <label for="floatingFirstName">First Name</label>
               </div>
             </div>
@@ -32,8 +32,8 @@
               <div class="form-floating mb-3">
                 <input type="text" class="form-control" id="floatingLastName"
                     placeholder="Last Name" name="lastName" required
-                    <% if (user.length != 0) { %> value="<%= user.lastName %>"
-                    <% } %> />
+                    <% if (user.length != 0) { %>
+                    value="<%= user.name.lastName %>" <% } %> />
                 <label for="floatingLastName">Last Name</label>
               </div>
             </div>
@@ -50,24 +50,30 @@
 
           <!-- Password -->
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPassword"
+            <input type="password" class="form-control"
+                <% if (user.length == 0) { %> id="floatingPassword"
+                <% } else { %> id="floatingPassword-<%= user._id %>" <% } %>
                 placeholder="Password" name="password" required />
             <label for="floatingPassword">Password</label>
           </div>
           <button class="btn btn-outline-secondary btn-sm mb-3" type="button"
-              id="visibilityPassword"><i class='bi bi-eye-fill'></i> Show
-            Password</button>
+              <% if (user.length == 0) { %> id="visibilityPassword"
+              <% } else { %> id="visibilityPassword-<%= user._id %>" <% } %>>
+            <i class='bi bi-eye-fill'></i></button>
 
           <!-- Confirm Password -->
           <div class="form-floating mb-3">
             <input type="password" class="form-control"
-                id="floatingConfirmPassword" placeholder="Confirm Password"
-                name="confirmPassword" required />
+                <% if (user.length == 0) { %> id="floatingConfirmPassword"
+                <% } else { %> id="floatingConfirmPassword-<%= user._id %>"
+                <% } %> placeholder="Confirm Password" name="confirmPassword"
+                required />
             <label for="floatingConfirmPassword">Confirm Password</label>
           </div>
           <button class="btn btn-outline-secondary btn-sm mb-3" type="button"
-              id="visibilityConfirmPassword"><i class='bi bi-eye-fill'></i> Show
-            Password</button>
+              <% if (user.length == 0) { %> id="visibilityConfirmPassword"
+              <% } else { %> id="visibilityConfirmPassword-<%= user._id %>"
+              <% } %>><i class='bi bi-eye-fill'></i></button>
 
           <!-- Address -->
           <div class="form-floating mb-3">
@@ -160,28 +166,66 @@
   </div>
 </form>
 
+<% if (user.length != 0) { %>
+<input type="hidden" id="userId" value="<%= user._id %>">
+<% } %>
+
+<% if (user.length == 0) { %>
 <script>
   $("#visibilityPassword").on("click", () => {
     if ($("#floatingPassword").attr("type") === "password") {
       $("#visibilityPassword").html(
-        "<i class='bi bi-eye-slash-fill'></i> Hide Password");
+        "<i class='bi bi-eye-slash-fill'></i>");
       $("#floatingPassword").attr("type", "text");
     } else {
       $("#floatingPassword").attr("type", "password");
       $("#visibilityPassword").html(
-        "<i class='bi bi-eye-fill'></i> Show Password");
+        "<i class='bi bi-eye-fill'></i>");
     }
   });
 
   $("#visibilityConfirmPassword").on("click", () => {
     if ($("#floatingConfirmPassword").attr("type") === "password") {
       $("#visibilityConfirmPassword").html(
-        "<i class='bi bi-eye-slash-fill'></i> Hide Password");
+        "<i class='bi bi-eye-slash-fill'></i>");
       $("#floatingConfirmPassword").attr("type", "text");
     } else {
       $("#floatingConfirmPassword").attr("type", "password");
       $("#visibilityConfirmPassword").html(
-        "<i class='bi bi-eye-fill'></i> Show Password");
+        "<i class='bi bi-eye-fill'></i>");
     }
   });
 </script>
+
+<% } else { %>
+<script>
+  let userId = $("#userId").val();
+  let floatingPasswordId = "#floatingPassword-" + userId;
+  let visibilityPasswordId = "#visibilityPassword-" + userId;
+  $(visibilityPasswordId).on("click", () => {
+    if ($(floatingPasswordId).attr("type") === "password") {
+      $(floatingPasswordId).attr("type", "text");
+      $(visibilityPasswordId).html(
+        "<i class='bi bi-eye-slash-fill'></i>");
+    } else {
+      $(floatingPasswordId).attr("type", "password");
+      $(visibilityPasswordId).html(
+        "<i class='bi bi-eye-fill'></i>");
+    }
+  });
+
+  let floatingConfirmPasswordId = "#floatingConfirmPassword-" + userId;
+  let visibilityConfirmPasswordId = "#visibilityConfirmPassword-" + userId;
+  $(visibilityConfirmPasswordId).on("click", () => {
+    if ($(floatingConfirmPasswordId).attr("type") === "password") {
+      $(visibilityConfirmPasswordId).html(
+        "<i class='bi bi-eye-slash-fill'></i>");
+      $(floatingConfirmPasswordId).attr("type", "text");
+    } else {
+      $(floatingConfirmPasswordId).attr("type", "password");
+      $(visibilityConfirmPasswordId).html(
+        "<i class='bi bi-eye-fill'></i>");
+    }
+  });
+</script>
+<% } %>

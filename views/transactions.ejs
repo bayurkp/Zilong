@@ -7,7 +7,7 @@
 
 <body>
   <div class="d-flex">
-    <%- include('./partials/sidebar.ejs') %>
+    <%- include('./partials/sidebar.ejs', session) %>
     <main class="d-flex flex-column align-items-center" style="width: 100%">
       <h1 class="fw-bold my-3"><%= title %></h1>
       <!-- Alert message -->
@@ -23,69 +23,74 @@
       <% } %>
 
       <div class="table-container" style="width: 80%">
-        <!-- Button modal add transaction -->
-        <button type="button" class="btn btn-outline-primary mb-3"
-            data-bs-toggle="modal" data-bs-target="#addModal">
-          <i class="fs-5 bi bi-plus"></i>
-        </button>
-
+        <div id="buttons" class="d-flex flex-row gap-1">
+          <% if (session.role == "admin" && onReport == null) { %>
+          <!-- Button modal add user -->
+          <button type="button" class="btn btn-outline-primary mb-3"
+              data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="fs-5 bi bi-plus"></i>
+          </button>
+          <% } %>
+        </div>
         <!-- Modal add transaction -->
         <%- include('./partials/transactions/addTransactionModal.ejs', { title: "Add new transaction" }) %>
 
+        <% if (onReport != null) { %>
+        <!-- Button modal filter -->
+        <button type="button" class="btn btn-outline-success mb-3"
+            data-bs-toggle="modal" data-bs-target="#reportModal">
+          <i class="bi bi-filter"></i>
+        </button>
+
+        <!-- Modal filter -->
+        <%- include('./partials/report/reportModal.ejs', { title: "Filter" }) %>
+        <% } %>
+
         <!-- Table of data -->
-        <table class="table table-bordered align-middle"
-            style="table-layout: fixed;">
+        <table class="table table-bordered align-middle">
           <thead>
             <tr class="text-center">
               <th>No</th>
               <th>Member</th>
-              <th>Timestamp</th>
+              <th>Created at</th>
               <th>Total</th>
               <th>Details</th>
+              <% if (session.role == "admin") { %>
               <th>Action</th>
+              <% } %>
             </tr>
           </thead>
+          <% if (transactions.length == 0) { %>
+          <tbody>
+            <tr>
+              <% if (session.role == 'admin') { %>
+              <td colspan="6" class="text-center">No entries</td>
+              <% } else { %>
+              <td colspan="5" class="text-center">No entries</td>
+              <% } %>
+            </tr>
+          </tbody>
+          <% } %>
           <tbody>
             <% let i = 1; %> <% transactions.forEach(transaction => { %>
             <tr>
-              <td style="word-wrap: break-word" class="text-center">
+              <td class="text-center">
                 <%= i %>
               </td>
-              <td style="word-wrap: break-word">
+              <td>
                 <% members.forEach(member => { %>
                 <% if (transaction.memberId == member._id.toString()) { %>
                 <%= member.username %>
                 <% } %>
                 <% }) %>
               </td>
-              <td style="word-wrap: break-word">
-                <%= transaction.createdAt.getDate() +
-                "/" + (transaction.createdAt.getMonth() + 1) +
-                "/" + transaction.createdAt.getFullYear()
-                %>
-
-                <% if (transaction.createdAt.getHours().toString().length == 1) { %>
-                <%= " " + 0 + transaction.createdAt.getHours() %>
-                <% } else { %>
-                <%= " " + transaction.createdAt.getHours() %>
-                <% } %>
-
-                <% if (transaction.createdAt.getMinutes().toString().length == 1) { %>
-                <%= ": " + 0 + transaction.createdAt.getMinutes() %>
-                <% } else { %>
-                <%= ": " + transaction.createdAt.getMinutes() %>
-                <% } %>
-
-                <% if (transaction.createdAt.getSeconds().toString().length == 1) { %>
-                <%= ": " + 0 + transaction.createdAt.getSeconds() %>
-                <% } else { %>
-                <%= ": " + transaction.createdAt.getSeconds() %>
-                <% } %>
+              <td>
+                <%= moment(transaction.createdAt).subtract(1, 'days').calendar(); %>
               </td>
-              <td style="word-wrap: break-word" class="text-end">
-                <%= transaction.total.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
+              <td class="text-end">
+                <%= transaction.total.toLocaleString("id-ID", {style: "currency", currency:"IDR"}) %>
               </td>
-              <td class="text-center" style="word-wrap: break-word">
+              <td class="text-center">
                 <!-- Button modal detail transaction -->
                 <button type="button" class="btn btn-outline-success btn-sm"
                     data-bs-toggle="modal"
@@ -97,6 +102,7 @@
                 <%- include('./partials/transactions/detailTransaction.ejs', { transaction, cashiers, members, books, title: "Detail Transactions" }) %>
               </td>
 
+              <% if (session.role == "admin") { %>
               <td class="text-center">
                 <div class="d-flex flex-row align-items-center
                     justify-content-center" style="gap: 5px">
@@ -109,19 +115,20 @@
                   </button>
 
                   <!-- Modal edit transaction -->
-                  <%-  include('./partials/transactions/editTransactionModal.ejs', { transaction, cashiers, members, books, title: "Edit " + transaction.lastName }) %>
+                  <%-  include('./partials/transactions/editTransactionModal.ejs', { transaction, cashiers, members, books, title: "Edit transaction" }) %>
 
                   <!-- Button delete transaction -->
                   <form
                       action="/transactions/<%= transaction._id %>?_method=DELETE"
                       method="post">
                     <button type="submit" class="btn btn-outline-danger btn-sm"
-                        onclick="return confirm('Delete <%= transaction.firstName + ` ` + transaction.lastName %>?');">
+                        onclick="return confirm('Delete transaction?');">
                       <i class="bi bi-trash-fill"></i>
                     </button>
                   </form>
                 </div>
               </td>
+              <% } %>
 
             </tr>
             <% i++; %>

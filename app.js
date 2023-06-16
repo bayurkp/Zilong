@@ -12,6 +12,7 @@ const indexRouter = require("./routes/index");
 const booksRouter = require("./routes/books");
 const usersRouter = require("./routes/users");
 const transactionsRouter = require("./routes/transactions");
+const reportRouter = require("./routes/report");
 
 const app = express();
 
@@ -25,7 +26,6 @@ app.use(
     secret: "zilong secret",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 60000 },
   }),
 );
 app.use(flash());
@@ -46,6 +46,7 @@ app.use("/", indexRouter);
 app.use("/books", booksRouter);
 app.use("/users", usersRouter);
 app.use("/transactions", transactionsRouter);
+app.use("/report", reportRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

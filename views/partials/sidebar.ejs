@@ -18,30 +18,39 @@
         <p class="d-inline">Books</p>
       </a>
     </li>
+    <% if (session.role != "member" || session.role != "regular") { %>
+    <% if (session.role == "admin" ) { %>
     <li class="nav-item">
       <a href="/users" class="nav-link text-white fs-5">
         <i class="bi bi-person-vcard-fill pe-2"></i>
         <p class="d-inline">Users</p>
       </a>
     </li>
+    <% } %>
     <li class="nav-item">
       <a href="/transactions" class="nav-link text-white fs-5">
         <i class="bi bi-cash-coin pe-2"></i>
         <p class="d-inline">Transactions</p>
       </a>
     </li>
+    <% if (session.role == "admin" ) { %>
+    <li class="nav-item">
+      <a href="/report" class="nav-link text-white fs-5">
+        <i class="bi bi-filter pe-2"></i>
+        <p class="d-inline">Report</p>
+      </a>
+    </li>
+    <% } %>
+    <% } %>
   </ul>
   <hr />
-  <div class="dropdown">
-    <a href="#"
-        class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-        data-bs-toggle="dropdown" aria-expanded="false">
-      <img src="/images/zilongswims.jpg" alt="" width="32" height="32"
-          class="rounded-circle me-2" />
-      <strong>zilong</strong>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-      <li><a class="dropdown-item" href="#">Sign out</a></li>
-    </ul>
+  <div>
+    <img src="/images/zilongswims.jpg" alt="" width="32" height="32"
+        class="rounded-circle me-2" />
+    <strong>@<%= session.username %></strong>
+    <form action="/auth?_method=delete" method="POST">
+      <button class="btn btn-dark" type="submit" style="margin-left: 32px;">Sign
+        out</button>
+    </form>
   </div>
 </div>

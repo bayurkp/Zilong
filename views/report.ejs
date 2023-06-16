@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('./partials/head.ejs', title) %>
+</head>
+
+<body>
+  <div class="d-flex">
+    <%- include('./partials/sidebar.ejs', session) %>
+    <main class="d-flex flex-column justify-content-center align-items-center"
+        style="width: 100%; min-height: 100vh;">
+      <div class="card text-center shadow">
+        <h1 class="fw-bold card-header px-5 p-3">Report</h1>
+        <div class="card-body">
+          <button type="button" class="btn btn-success my-3"
+              data-bs-toggle="modal" data-bs-target="#reportModal">
+            <i class="bi bi-filter"></i> Filter
+          </button>
+        </div>
+
+      </div>
+      <%- include('./partials/report/reportModal.ejs') %>
+    </main>
+  </div>
+  <%- include('./partials/js.ejs') %>
+</body>

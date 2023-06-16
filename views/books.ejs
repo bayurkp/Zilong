@@ -20,14 +20,30 @@
       </div>
 
       <div class="table-container" style="width: 80%">
-        <!-- Button modal add book -->
-        <button type="button" class="btn btn-outline-primary mb-3"
-            data-bs-toggle="modal" data-bs-target="#addModal">
-          <i class="fs-5 bi bi-plus"></i>
-        </button>
+        <div id="buttons" class="d-flex flex-row gap-1">
+          <% if (session.role == 'admin' && onReport == null) { %>
+          <!-- Button modal add book -->
+          <button type="button" class="btn btn-outline-primary mb-3"
+              data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="fs-5 bi bi-plus"></i>
+          </button>
+          <% } %>
 
-        <!-- Modal add book -->
-        <%- include('./partials/books/bookModal.ejs', { book: [], title: "Add new book" }) %>
+          <!-- Modal add book -->
+          <%- include('./partials/books/bookModal.ejs', { book: [], title: "Add new book" }) %>
+
+          <% if (onReport != null) { %>
+          <!-- Button modal filter -->
+          <button type="button" class="btn btn-outline-success mb-3"
+              data-bs-toggle="modal" data-bs-target="#reportModal">
+            <i class="bi bi-filter"></i>
+          </button>
+
+          <!-- Modal filter -->
+          <%- include('./partials/report/reportModal.ejs', { title: "Filter" }) %>
+          <% } %>
+        </div>
+
 
         <!-- Table of data -->
         <table class="table table-bordered align-middle">
@@ -37,9 +53,22 @@
               <th>Title</th>
               <th>Author</th>
               <th>Detail</th>
+              <% if (session.role == 'admin') { %>
               <th>Action</th>
+              <% } %>
             </tr>
           </thead>
+          <% if (books.length === 0) { %>
+          <tbody>
+            <tr>
+              <% if (session.role == 'admin') { %>
+              <td colspan="5" class="text-center">No entries</td>
+              <% } else { %>
+              <td colspan="4" class="text-center">No entries</td>
+              <% } %>
+            </tr>
+          </tbody>
+          <% } else { %>
           <tbody>
             <% let i = 1; %> <% books.forEach(book => { %>
             <tr>
@@ -58,8 +87,9 @@
                 <%- include('./partials/books/detailBook.ejs', {book, title: "Detail " + book.title}) %>
               </td>
 
-              <td class="text-center d-flex flex-row align-items-center justify-content-center"
-                  style="gap: 5px">
+              <% if (session.role == "admin") { %>
+              <td
+                  class="text-center d-flex flex-row align-items-center justify-content-center gap-1">
                 <!-- Button modal edit book  -->
                 <button type="button" class="btn btn-outline-warning btn-sm"
                     data-bs-toggle="modal"
@@ -78,11 +108,13 @@
                   </button>
                 </form>
               </td>
+              <% } %>
 
             </tr>
             <% i++; %>
             <% }) %>
           </tbody>
+          <% } %>
         </table>
       </div>
     </main>

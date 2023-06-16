@@ -1,0 +1,80 @@
+<hr>
+<div id="containerTimestamp">
+  <p class="mb-3">By Timestamp</p>
+  <div class="mb-3" id="buttons">
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byConditionTimestampButton"
+          type="radio" name="timestamp" value="byCondition" checked>
+      <label class="form-check-label" for="byConditionTimestampButton">
+        Condition
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" id="byRangeTimestampButton" type="radio"
+          name="timestamp" value="byRange">
+      <label class="form-check-label" for="byRangeTimestampButton">
+        Range
+      </label>
+    </div>
+  </div>
+
+  <div id="containerFormTimestamp">
+    <!-- Use condition -->
+    <div id="byConditionTimestampForm" class="row">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <select name="timestamp" class="form-select" id="operatorTimestamp">
+            <option value="eq" selected> = </option>
+            <option value="gt"> &gt </option>
+            <option value="gte"> &gt= </option>
+            <option value="lt"> &lt </option>
+            <option value="lte"> &lt= </option>
+            <option value="ne"> != </option>
+          </select>
+          <label for="operatorTimestamp">Operator</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="valueTimestamp"
+              placeholder="Value" step="1" name="timestamp" />
+          <label for="valueTimestamp">Value (Rp)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use range -->
+    <div id="byRangeTimestampForm" class="row" style="display: none;">
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="startValueTimestamp"
+              placeholder="Start" name="timestamp" />
+          <label for="startValueTimestamp">Start (Rp)</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="endValueTimestamp"
+              placeholder="End" name="timestamp" />
+          <label for="endValueTimestamp">End (Rp)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("input[type='radio'][name='timestamp']").click(function() {
+        let formTimestampId = "#" + $(this).val() +
+          "TimestampForm";
+        console.log(formTimestampId);
+        $(formTimestampId).show();
+        $("#containerFormTimestamp").children().not($(
+            formTimestampId))
+          .hide();
+      });
+    });
+  </script>
+</div>

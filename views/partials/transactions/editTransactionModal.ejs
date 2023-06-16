@@ -20,7 +20,8 @@
               <option value="<%= member._id %>"
                   <% if (transaction.memberId == member._id.toString()) { %>
                   selected <% } %>>
-                <%= member.firstName + " " + member.lastName %></option>
+                <%= member.name.firstName + " " + member.name.lastName %>
+              </option>
               <% }) %>
             </select>
             <label for="floatingMemberId">Member</label>
@@ -34,7 +35,8 @@
               <option value="<%= cashier._id %>"
                   <% if (transaction.cashierId == cashier._id.toString()) { %>
                   selected <% } %>>
-                <%= cashier.firstName + " " + cashier.lastName %></option>
+                <%= cashier.name.firstName + " " + cashier.name.lastName %>
+              </option>
               <% }) %>
             </select>
             <label for="floatingCashierId">Cashier</label>
@@ -177,8 +179,8 @@
               data-bs-dismiss="modal">
             Back
           </button>
-          <button type="submit" name="submit" class="btn btn-outline-primary">
-            Add
+          <button type="submit" name="submit" class="btn btn-warning">
+            Edit
           </button>
         </div>
       </div>

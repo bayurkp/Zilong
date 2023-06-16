@@ -18,7 +18,8 @@
                 required>
               <% members.forEach(member => { %>
               <option value="<%= member._id %>">
-                <%= member.firstName + " " + member.lastName %></option>
+                <%= member.name.firstName + " " + member.name.lastName %>
+              </option>
               <% }) %>
             </select>
             <label for="floatingMemberId">Member</label>
@@ -30,7 +31,8 @@
                 required>
               <% cashiers.forEach(cashier => { %>
               <option value="<%= cashier._id %>">
-                <%= cashier.firstName + " " + cashier.lastName %></option>
+                <%= cashier.name.firstName + " " + cashier.name.lastName %>
+              </option>
               <% }) %>
             </select>
             <label for="floatingCashierId">Cashier</label>
@@ -47,7 +49,9 @@
                     id="floatingBookId" required>
                   <% books.forEach(book => { %>
                   <option value="<%= book._id %>">
-                    <%= book.title %> - Rp. <%= book.price %>,00</option>
+                    <%= book.title %> - Rp.
+                    <%= book.price.toLocaleString("id-ID", {style: "currency", currency:"IDR"}) %>
+                  </option>
                   <% }) %>
                 </select>
                 <label for="floatingBookId">Book</label>
@@ -104,7 +108,6 @@
   </div>
 </form>
 
-
 <script>
   let detailId = 2;
   const addTransactionDetail = () => {
@@ -117,7 +120,8 @@
             required>
           <% books.forEach(book => { %>
           <option value="<%= book._id %>">
-            <%= book.title %> - Rp. <%= book.price %>,00</option>
+            <%= book.price.toLocaleString("id-ID", {style: "currency", currency:"IDR"}) %>
+            </option>
           <% }) %>
         </select>
         <label for="floatingBookId">Book</label>
