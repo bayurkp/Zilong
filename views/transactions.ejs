@@ -49,10 +49,37 @@
         <!-- Table of data -->
         <table class="table table-bordered align-middle">
           <thead>
+            <tr>
+              <% if (session.role == 'admin') { %>
+              <td colspan="6" class="text-end pe-4 fw-bold">
+                Total entries: <%= transactions.length %>
+                <br>
+                <% let totalIncome = 0 %>
+                <% transactions.forEach(transaction => { %>
+                <% totalIncome += parseFloat(transaction.total) %>
+                <% }) %>
+
+                Total incomes:
+                <%= totalIncome.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
+              </td>
+              <% } else { %>
+              <td colspan="5" class="text-end pe-4 fw-bold">
+                Total entries: <%= transactions.length %></td>
+
+              <br>
+              <% let totalIncome = 0 %>
+              <% transactions.forEach(transaction => { %>
+              <% totalIncome += parseFloat(transaction.total) %>
+              <% }) %>
+
+              Total incomes:
+              <%= totalIncome.toLocaleString("id-ID", {style:"currency", currency:"IDR"}) %>
+              <% } %>
+            </tr>
             <tr class="text-center">
               <th>No</th>
               <th>Member</th>
-              <th>Created at</th>
+              <th>Timestamp</th>
               <th>Total</th>
               <th>Details</th>
               <% if (session.role == "admin") { %>
@@ -85,7 +112,7 @@
                 <% }) %>
               </td>
               <td>
-                <%= moment(transaction.createdAt).subtract(1, 'days').calendar(); %>
+                <%= moment(transaction.createdAt); %>
               </td>
               <td class="text-end">
                 <%= transaction.total.toLocaleString("id-ID", {style: "currency", currency:"IDR"}) %>

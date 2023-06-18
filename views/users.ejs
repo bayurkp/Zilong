@@ -49,6 +49,16 @@
         <!-- Table of data -->
         <table class="table table-bordered align-middle">
           <thead>
+            <tr>
+              <% if (session.role == 'admin') { %>
+              <td colspan="6" class="text-end pe-4 fw-bold">
+                Total entries: <%= users.length %>
+              </td>
+              <% } else { %>
+              <td colspan="5" class="text-end pe-4 fw-bold">
+                Total entries: <%= users.length %></td>
+              <% } %>
+            </tr>
             <tr class="text-center">
               <th>No</th>
               <th>Name</th>

@@ -44,6 +44,7 @@ router.get("/books", async (req, res, next) => {
     const query = req.query;
 
     let $query = {};
+    let $sort = {};
 
     if (query.title)
       $query.title = { $regex: `.*${query.title}.*`, $options: "i" };
@@ -111,10 +112,27 @@ router.get("/books", async (req, res, next) => {
       }
     }
 
+    if (query.sort) {
+      let temp = query.sort.split("-");
+      $sort[`${temp[0]}`] = temp[1] == "ascending" ? 1 : -1;
+    }
+
     console.log($query);
 
-    const books =
-      Object.keys($query).length != 0 ? await Book.find($query) : [];
+    let books = [];
+    if (Object.keys($query).length != 0 && Object.keys($sort).length != 0) {
+      books = await Book.find($query).sort($sort);
+    } else if (
+      Object.keys($query).length == 0 &&
+      Object.keys($sort).length != 0
+    ) {
+      books = await Book.find($query).sort($sort);
+    } else if (
+      Object.keys($query).length != 0 &&
+      Object.keys($sort).length == 0
+    ) {
+      books = await Book.find($query);
+    }
 
     const allBooks = await Book.find();
     const allUsers = await User.find();
@@ -147,6 +165,7 @@ router.get("/users", async (req, res, next) => {
     const query = req.query;
 
     let $query = {};
+    let $sort = {};
 
     if (query.firstName) {
       $query["name.firstName"] = {
@@ -171,11 +190,27 @@ router.get("/users", async (req, res, next) => {
       if (query.isActive == 1) $query.isActive = true;
       else if (query.isActive == 0) $query.isActive = false;
     }
+    if (query.sort) {
+      let temp = query.sort.split("-");
+      $sort[`${temp[0]}`] = temp[1] == "ascending" ? 1 : -1;
+    }
 
     console.log($query);
 
-    const users =
-      Object.keys($query).length != 0 ? await User.find($query) : [];
+    let users = [];
+    if (Object.keys($query).length != 0 && Object.keys($sort).length != 0) {
+      users = await User.find($query).sort($sort);
+    } else if (
+      Object.keys($query).length == 0 &&
+      Object.keys($sort).length != 0
+    ) {
+      users = await User.find($query).sort($sort);
+    } else if (
+      Object.keys($query).length != 0 &&
+      Object.keys($sort).length == 0
+    ) {
+      users = await User.find($query);
+    }
 
     const allBooks = await Book.find();
     const allUsers = await User.find();
@@ -208,6 +243,7 @@ router.get("/transactions", async (req, res, next) => {
     const query = req.query;
 
     let $query = {};
+    let $sort = {};
 
     if (query.memberId) $query.memberId = query.memberId;
     if (query.cashierId) $query.cashierId = query.cashierId;
@@ -274,11 +310,27 @@ router.get("/transactions", async (req, res, next) => {
         $query.createdAt.$lte = new Date(temp[2]);
       }
     }
+    if (query.sort) {
+      let temp = query.sort.split("-");
+      $sort[`${temp[0]}`] = temp[1] == "ascending" ? 1 : -1;
+    }
 
     console.log($query);
 
-    const transactions =
-      Object.keys($query).length != 0 ? await Transaction.find($query) : [];
+    let transactions = [];
+    if (Object.keys($query).length != 0 && Object.keys($sort).length != 0) {
+      transactions = await Transaction.find($query).sort($sort);
+    } else if (
+      Object.keys($query).length == 0 &&
+      Object.keys($sort).length != 0
+    ) {
+      transactions = await Transaction.find($query).sort($sort);
+    } else if (
+      Object.keys($query).length != 0 &&
+      Object.keys($sort).length == 0
+    ) {
+      transactions = await Transaction.find($query);
+    }
 
     const allBooks = await Book.find();
     const allUsers = await User.find();
@@ -383,6 +435,10 @@ router.post("/books", (req, res, next) => {
 
   if (body.genre) query.genre = body.genre;
 
+  if (body.sortBooksBy && body.sortBooksAs) {
+    query.sort = body.sortBooksBy + "-" + body.sortBooksAs;
+  }
+
   console.log({ query });
   res.redirect(
     url.format({
@@ -405,6 +461,9 @@ router.post("/users", (req, res, next) => {
   if (body.phone) query.phone = body.phone;
   if (body.role) query.role = body.role;
   if (body.isActive) query.isActive = body.isActive;
+  if (body.sortUsersBy && body.sortUsersAs) {
+    query.sort = body.sortUsersBy + "-" + body.sortUsersAs;
+  }
 
   console.log({ query });
   res.redirect(
@@ -514,6 +573,10 @@ router.post("/transactions", (req, res, next) => {
       query.timestamp =
         "byRange-" + body.timestamp[3] + "-" + body.timestamp[4];
     }
+  }
+
+  if (body.sortTransactionsBy && body.sortTransactionsAs) {
+    query.sort = body.sortTransactionsBy + "-" + body.sortTransactionsAs;
   }
 
   console.log({ query });

@@ -489,3 +489,65 @@
     });
   </script>
 </div>
+
+<!-- Sort By -->
+<hr>
+<div id="sortTransactionsByOptions">
+  <p class="mb-3">Sort by</p>
+  <table class="table text-start">
+    <tr>
+      <td>
+        <div class="form-check" id="sortTransactionsBy">
+          <input class="form-check-input" type="radio" name="sortTransactionsBy"
+              id="sortMemberId" value="memberId">
+          <label class="form-check-label" for="sortMemberId">
+            Member ID
+          </label>
+        </div>
+
+        <div class="form-check" id="sortTransactionsBy">
+          <input class="form-check-input" type="radio" name="sortTransactionsBy"
+              id="sortCashierId" value="cashierId">
+          <label class="form-check-label" for="sortCashierId">
+            Cashier ID
+          </label>
+        </div>
+
+        <div class="form-check" id="sortTransactionsBy">
+          <input class="form-check-input" type="radio" name="sortTransactionsBy"
+              id="sortTotal" value="total">
+          <label class="form-check-label" for="sortTotal">
+            Total
+          </label>
+        </div>
+
+        <div class="form-check" id="sortTransactionsBy">
+          <input class="form-check-input" type="radio" name="sortTransactionsBy"
+              id="sortTimestamp" value="createdAt">
+          <label class="form-check-label" for="sortTimestamp">
+            Timestamp
+          </label>
+        </div>
+      </td>
+
+      <!-- Sort As -->
+      <td>
+        <div class="form-check" id="sortTransactionsBy">
+          <input class="form-check-input" type="radio" name="sortTransactionsAs"
+              id="sortTransactionsAsAsc" value="ascending">
+          <label class="form-check-label" for="sortTransactionsAsAsc">
+            Ascending (Up)
+          </label>
+        </div>
+
+        <div class="form-check" id="sortTransactionsBy">
+          <input class="form-check-input" type="radio" name="sortTransactionsAs"
+              id="sortTransactionsAsDesc" value="descending">
+          <label class="form-check-label" for="sortTransactionsAsDesc">
+            Descending (Down)
+          </label>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
